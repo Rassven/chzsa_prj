@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+        <meta name="description" content="Сайт онлайн сервиса по обслуживанию техники ЧЗСА.">
+        <meta name="keywords" content="ЧЗСА, Челябинск, завод, силовы, агрегат, погрузчик, обслуживание, Силант">
+        <meta name="author" content="Rassven">
+        {% load static %}
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'img/favicon.ico' %}" rel="icon" type="image/x-icon">
+        <script type="text/javascript" src="{% static 'js/d_clock.js' %}"></script>
+        <title> {% block title %}  {% endblock title %} </title>
+    </head>
+
+    <body>
+    {% comment "Comment" %}{% include 'flatpages/contact_page.html' %}{{ flatpage.title }}
+    {link="#00ff00" alink="#ff0000" vlink="#ffff00"}{%  endcomment %}
+
+    {% include 'base/header.html' %}
+
+    {% comment "Comment" %}
+    <table style="width: 100%; height: 32px; text-align: center;">
+        <tbody>
+        <tr style="background-color: #333333; color: #888888">
+            <td>Id: {{ user.id }}</td>
+            <td>Name: {{ user }}</td>
+            <td>Is active: {{ user.is_active }}</td>
+            <td>User groups:  {{ user.groups }}</td>
+            <td>User is staff: {{ user.is_staff }}</td>
+            <td>User is superuser: {{ user.is_superuser }}</td>
+            <td>User date joined: {{ user.date_joined }}</td>
+            <td>User last login: {{ user.last_login }}</td>
+        </tr>
+        </tbody>
+    </table>
+    {%  endcomment %}
+
+    {%  comment 'Comment' %}
+    <table style="text-align: center; width: 100%; height: 36px">
+        <tbody>
+        <tr style="background-color: #555555; color: #dddddd">
+            <td style="width: 100px"><a style="color:#ff0000"; href="/webservice/rules">Rules!</a></td>
+            <td style="width: 150px">Available pages:</td>
+            {% if user.is_active %}
+                <td style="width: 100px; color: #00ff00">Available</td>
+                <td style="width: 100px"><a style="color:#00ff00" href="/accounts/mypage/" title="Страница с личной информацией {{user}}">My page</a></td>
+                <td style="width: 100px"><a style="color:#00ff00" href="/webservice/machines">Machines</a></td>
+                <td style="width: 100px"><a style="color:#00ff00" href="/webservice/services">Services</a></td>
+            {% else %}
+                <td style="width: 50px; color: #ff0000">None</td>
+            {% endif %}
+            <td style="width: 100px"><a style="color:#bbbbbb" href="/webservice/welcome" title="Страница приветствия">Welcome</a></td>
+            <td></td>
+            <td style="width: 100px;"><input type=button value="Show Time" onclick="alert(new Date())"></td>
+        </tr>
+        </tbody>
+    </table>
+    {%  endcomment %}
+
+
+     <content>
+         {% block content %}{{ flatpage.content }}{% endblock content %}
+         {%  comment 'Comment' %}
+         {% if user.id == None %}
+         {% block content %}{{ flatpage.content }}{% endblock content %}
+         {% else %}
+            {% if user.is_staff %}
+                {% include 'staff_page.html' %}
+            {% else %}
+                {% if user.is_superuser %}
+                    {% include 'admin_page.html' %}
+                {% endif %}
+            {% endif %}
+         {% endif %}
+         {%  endcomment %}
+
+    </content>
+
+
+        {% include 'base/footer.html' %}
+    </body>
+</html>

@@ -1,0 +1,18 @@
+{% extends 'base/default.html' %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    Организация (конечный пользователь) #{{ machine.end_user.id }}
+{% endblock title %}
+
+{% block content %}
+    <p style="color:#ff0000">Begin template machine_user.html</p>
+    End User = "{{ machine.end_user }}" (из __str__)
+    {{ machine.end_user.id }}
+    <p>End user (username): "{{ machine.end_user.username }}"</p>
+    <p>End user: "{{ machine.end_user }}"</p>
+
+    <p style="color:#ff0000">End machine_user.html</p>
+{% endblock content %}

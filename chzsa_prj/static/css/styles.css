@@ -1,0 +1,169 @@
+* {margin: 0px; padding: 0px;}
+:root {
+--base-color-1: #EBE6D6;
+--base-color-2: #163E6C;
+--base-color-3: #D20A11;
+--header-size: 13vh;
+--footer-size: 8vh;
+}
+html {height: 100%; width: 100%;}
+
+body {
+height: 100%;
+margin: 0px;
+padding: 2px;
+background-color: var(--base-color-1);
+display: grid;
+grid-template-rows: var(--header-size) calc(100vh - var(--header-size) - var(--footer-size)) var(--footer-size);
+fonts: PT Astra Sans;
+}
+
+header {
+# #height: calc(var(--header-size) - 8px);
+height: 100% - 6px;
+margin: 2px;
+padding: 0px;
+border: 3px solid;
+border-radius: 4px;
+border-color: #0000ff;
+background-color: var(--base-color-1);
+display: grid;
+grid-template-columns: auto auto 1fr;
+grid-template-rows: auto;
+grid-auto-flow: row dense;
+}
+
+.header-add {
+height: calc(100% - 17px);
+# height: 50%;
+margin: 2px; padding: 2px;
+border: 3px solid; border-radius: 4px; border-color: #ff0000;
+display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; grid-template-rows: repeat(3, 1fr);
+justify-items: stretch; align-items: center; justify-content: center; align-content: center;
+gap: 3px;
+}
+
+.logo1 {height: calc(var(--header-size) - 2.5vh); margin: 2px; border:3px solid; border-radius:4px; border-color: #ff0000;}
+.logo2 {height: calc(var(--header-size) - 2.5vh); margin: 2px; border:3px solid; border-radius:4px; border-color: #ff0000;}
+.page-load {color: rgba(0, 0, 0, 0.4); grid-row: span 1; grid-column: span 4; background-color: #aaaaaa;
+text-align: center; border-radius: 3px;}
+.admin-link {grid-row: 3 / 4; grid-column: span 1; text-align: center;}
+.clock {color: #00ff00; grid-row: 1 / 2; grid-column: 5 / 6; background-color: #000000;
+text-align: center; border-radius: 3px;}
+.about-service {grid-column: span 3; text-align: center;}
+.user-id {grid-row: 2 / 3; grid-column: 5 / 6; text-align: center;}
+.welcome-link {grid-row: 3 / 4; text-align: center;}
+.quit {grid-column: 5 / 6; grid-row: 3 / 4; text-align: center;}
+.login {grid-row: 3 / 4; grid-column: 5 / 6; text-align: center;}
+
+
+content {
+margin: 2px; padding: 5px;
+background-color: var(--base-color-1);
+border: 3px solid; border-radius: 4px; border-color: #0000ff;
+}
+
+.comments-window {height: 76.5vh; width: 97.5vw; background-color: #ccccdd;}
+
+.find-results {
+m-height: 280px; m-width: 99%;
+background-color: var(--base-color-1); font-size: 24px;
+padding: 5px;
+border: 3px solid; border-radius: 4px; border-color: #0000ff;
+overflow-y: scroll;
+text-align: center;
+}
+
+.detail-info {
+m-height: 50%; m-width: 99%;
+padding: 5px;
+border: 3px solid; border-radius: 4px; border-color: #0000ff;
+background-color: #888888;
+max-height: 50%;
+overflow-x: scroll;
+overflow-y: scroll;
+}
+
+.detail-info-comments {
+# height: 100vh; m-width: 99%;
+height: 85%;
+padding: 5px;
+border: 3px solid; border-radius: 4px; border-color: #0000ff;
+background-color: #aaaaaa;
+# max-height: 80%;
+overflow-x: scroll;
+overflow-y: scroll;
+}
+
+footer {
+margin: 2px; padding: 5px;
+border: 3px solid; border-radius: 4px; border-color: #0000ff;
+background-color: var(--base-color-1);
+display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-template-rows: 1fr;
+justify-items: center; justify-content: center; align-content: center; align-items: center;
+}
+
+.rus1 {border: 3px solid; border-radius: 10px; border-color: #ff0000;}
+.rus2 {border: 3px solid; border-radius: 7px; border-color: #0000ff;}
+.rus3 {
+width: 40vw;
+border: 2px solid; border-radius: 6px; border-color: var(--base-color-1);
+color: var(--base-color-1); background-color: #222222;
+display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr;
+justify-items: center; align-items: center;
+}
+
+
+.todo-window {padding: 5px 20px 20px 20px; height: 95%; width: 97%; background-color: #ccccdd; overflow-y: scroll;}
+
+temp {фрейм чувствителен к расширению файла!}
+.frame1 {height: 10px; width: 100px; background-color: #000000; color: #00ff00; overflow-x: scroll; overflow-y: scroll;}
+.frame1:hover {position: absolute; left: 10%; top: 20%; height: 70%; width: 80%; z-index: 999999; background-color: #000000; color: #00ff00;}
+
+.youtube-window {
+position: absolute; top: 25%; right: 5%;
+width: 520px; height: 320px;
+background-color: #999999; color: #ffffff;
+border: 2px solid; border-radius: 5px; border-color: #0000ff;
+text-align: center;}
+
+
+/* Тест предупредительного сообщения */
+.alert-box {
+    height: 50px;
+    width: 200px;
+    padding: 20px;
+    background-color: #ff0000;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+test {
+.close-btn {margin-left: 15px; color: #ffffff; font-weight: bold; float: right; font-size: 22px; line-height: 20px;
+    cursor: pointer; transition: 0.3s;}
+.close-btn:hover {color: #000000;}
+}
+
+
+.login-page {
+height: 200px; width: 50%;
+margin: 5% 20px 10px 5%; padding: 5px;
+border: 3px solid; border-radius: 4px; border-color: #0000ff;
+background-color: var(--base-color-1);
+display: grid;
+grid-template-columns: 1fr 1fr;
+grid-template-row: auto;
+justify-items: center; justify-content: center; align-content: center; align-items: center;
+}
+
+.base-login {m-width: 100%; height: 100%;
+margin: 3px; padding: 10px;
+border: 3px solid; border-radius: 4px; border-color: #ff0000;
+background-color: var(--base-color-1);
+}
+
+.custom-login {m-width: 100%; height: 100%;
+margin: 3px; padding: 10px;
+border: 3px solid; border-radius: 4px; border-color: #ff0000;
+background-color: var(--base-color-1);
+}

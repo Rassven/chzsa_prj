@@ -1,0 +1,80 @@
+{% extends 'base/default.html' %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    Machines (вкладка в браузере)
+{% endblock title %}
+
+{% block content %}
+<p style="color:#ff0000">Begin template machines.html</p>
+<p>All machines (всего: {{ machines.count }} лжет со страничительством)</p>
+<p> Alter all (num/счетчик): {{ machines|length }}  Current page: {{ page_obj.number }} info paginator {{ paginator.num_pages }}</p>
+
+<hr>
+{% comment "filter" %}<form action="" method="get">
+            {% csrf_token %}
+            {{ filterset.form.as_p }}
+            <input type="submit" value="Найти" />
+</form>{% endcomment %}
+{% if user.is_active %}
+    {% if machines %}
+        <table style="height: 36px; width: 1200px; background-color: #333333; color: #888888; text-align: center;">
+           <tr style="text-align: center;">
+               <td>Id</td>
+               <td>End user</td>
+               <td>Serial number</td>
+               <td>Type</td>
+               <td>Creating time</td>
+               <td>Editing time</td>
+               <td>Details</td>
+               <td>Actions</td>
+           </tr>
+           {% for machine in machines %}
+           <tr style="text-align: center;">
+               <td>{{ machine.id }}</td>
+               <td>{{ machine.end_user }}</td>
+               <td>{{ machine.number }}</td>
+               <td>{{ machine.type }}</td>
+               <td>{{ machine.creation_date|date:'Y-m-d / H:i:s' }}</td>
+               <td>{{ machine.last_edit_date|date:'Y-m-d / H:i:s' }}</td>
+               <td>{{ machine.package_contents }}</td>
+               <td><a style="color: #00ff00" href="machine/{{ machine.id }}">View</a></td>
+           </tr>
+           {% endfor %}
+        </table>
+    {% else %}
+       <h2>Пока нет объявлений.</h2>
+    {% endif %}
+
+{% else %}
+Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
+{% endif %}
+
+{% comment 'Comment' %}
+{# страничительство #}
+{% if paginator.num_pages > 1 %}
+<h2 style="text-align: center">
+    pages<
+{% if page_obj.has_previous %}
+    <a href="?{% url_replace page=1 %}">1</a>
+    {% if page_obj.previous_page_number != 1 %}
+        ...<a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+    {% endif %}
+{% endif %}
+{{ page_obj.number }}
+{% if page_obj.has_next %}
+    <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+    {% if paginator.num_pages != page_obj.next_page_number %}
+        ...<a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+    {% endif %}
+{% endif %}
+></h2>
+{% else %}
+Без страничительства
+{% endif %}
+{% endcomment %}
+
+<p style="color:#ff0000">End template machines.html</p>
+{% endblock content %}

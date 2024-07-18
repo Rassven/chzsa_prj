@@ -1,0 +1,33 @@
+{% load static %}
+
+<header>
+    <a href="https://chzsa.ru/" target="_blank">
+        <img class="logo1" src="{% static 'img/chzsa_logo.JPG' %}"
+             alt="ChZSA logo" title="Челябинский завод силовых агрегатов (перейти на сайт)">
+    </a>
+
+    <a href="https://silant.com/" target="_blank">
+        {% comment "Comment" %}style="width: 100%; height: 100%; object-fit: contain;"{%  endcomment %}
+        <img class="logo2" src="{% static 'img/silant.JPG' %}"
+             alt="Silant logo" title="Марка 'Силант' (перейти на сайт)">
+    </a>
+
+    <div class="header-add">
+
+         {% comment "Comment" %}<div class="user-id"><h3>UserID: {{ user.id }}</h3></div>{% endcomment %}
+        <div class="page-load">Загружено <script type="text/javascript">document.write(Date())</script></div>
+        <div class="about-service"><h4>Электронная сервисная книжка "Мой Силант"</h4></div>
+                {% if user.id == None %}
+            <div class="login"><a href="/accounts/login/">Войти</a></div>
+        {% else %}
+            <div class="logout"><a href="/accounts/logout/">Выйти из {{ user.name }}</a></div>
+        {% endif %}
+        <div>{{ user }}</div>
+        <div>{{ user.groups }}</div>
+        <div><a style="color:#0000ff" href="/webservice/main">Main page</a></div>
+        <div><a class="admin-link" href="/admin" target="_blank" title="Переход в админку (на время отладки)">Admin</a></div>
+        <div><a class="welcome-link" style="color:#0000ff" href="{% url 'welcome' %}">Welcome</a></div>
+        <div class="clock" id="id_clock"><script>digitalClock()</script></div>
+
+    </div>
+</header>

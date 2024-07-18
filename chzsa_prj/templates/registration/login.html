@@ -1,0 +1,45 @@
+{% extends 'base/default.html' %}
+
+{% block title %}
+Регистрация на сайте (имя вкладки в браузере)
+{% endblock title %}
+
+{% block content %}
+<div class="login-page">
+    <div class="base-login">
+        <p>Стандартная форма входа по Логину и Паролю (выдаются при регистрации вашей фирмы у поставщика оборудования)</p>
+        <br>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="login">
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+    </div>
+    <div class="custom-login">
+        <p>Тестовый вариант авторизации на сервисе:</p>
+        <br>
+        <p>Выберите в качестве кого будете авторизованы на сервисе и введите выданный вам персональный код (в формате:
+            0000-0000-0000-0000).</p>
+        <br>
+        <form>
+            <label for="user-type-select">Войти как: </label>
+            <select name="user-type" id="user-type-select">
+                <option value="" disabled autofocus>--  Войти как  --</option>
+                <option value="manager">Представитель фирмы</option>
+                <option value="client">Клиент фирмы</option>
+                <option value="end-user">Пользователь продукции</option>
+                <option value="service">Сервисная компания</option>
+                <option value="maintenance">Компания проводящая ТО</option>
+            </select>
+        </form>
+        <label for="set-code">Ввести код: </label>
+        <input name="personal-code" id="set-code">
+    </div>
+<div class="youtube-window"><span style="font-size: 25px">Силант на YouTube канале "Константин PRO"</span>
+<iframe width="513" height="288" src="https://www.youtube.com/embed/RtRhUegSZaI" title="Российская Спецтехника и Импортные Автокомпоненты на выставке строительной техники" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+
+</div>
+{% endblock %}

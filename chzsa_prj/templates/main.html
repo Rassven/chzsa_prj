@@ -1,0 +1,19 @@
+{% extends 'base/default.html' %}
+
+{% block title %}
+    Main page (вкладка в браузере)
+{% endblock title %}
+
+{% block content %}
+    <div class="main-window">
+
+    </div>
+<h4>
+<p>Хэш текущего файла спецификации (hex): </p>
+<p>Хэш-сумма записаная в файле (hex): </p>
+<p>Хэш-сумма файла с сайта производителя (hex): </p>
+</h4>
+
+
+    {{ request }}
+{% endblock content %}

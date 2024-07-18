@@ -1,0 +1,77 @@
+{% extends 'base/default.html' %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    Машина #{{ machine.id }}
+{% endblock title %}
+
+{% block content %}
+    <p style="color:#ff0000">Begin template ad.html</p>
+    Machine = "{{ machine }}" (из __str__)
+    <p>Test for User: name: '{{ user.username }}' user: '{{ user }}', end_user: '{{ machine.end_user }}' operator name: '{{ machine.end_user.username }}'</p>
+    {% if machine.end_user.id == user.id %}
+        It's your machine!
+    {% else %}
+        <p style="color: #ff0000">Not your machine.</p>
+    {% endif %}
+
+    <table style="height: 36px; width: 80%; background-color: #333333; color: #888888; text-align: center;">
+        <tbody>
+        <tr>
+            <td>Machine Id</td>
+            <td>Machine model</td>
+            <td>EndUser</td>
+            <td>Machine S/N</td>
+            <td>Creation date</td>
+            <td>last_edit_date</td>
+            <td>???</td>
+            <td>???</td>
+            <td>Actions</td>
+        </tr>
+
+        <tr>
+            <td>{{ machine.id }}</td>
+            <td>{{ machine.model }}</td>
+            <td>{{ machine.end_user }}</td>
+            <td>{{ machine.number }}</td>
+            <td>{{ machine.creation_date|date:'Y-m-d / H:i:s' }}</td>
+            <td>{{ machine.last_edit_date|date:'Y-m-d / H:i:s' }}</td>
+            <td>{{  }}</td>
+            <td>{{  }}</td>
+            <td>{% if perms.machine.edit_machine %}
+                    <a style="color: #00ff00" href="{{ machine.id }}/edit/">Edit</a>
+                {% endif %}
+                {% if perms.webservice.add_maintenance and machine.end_user.id != user.machine.id %}
+                    <a style="color: #00ff00" href="/webservice/maintenance/add/">Add Maintenance</a>
+                {% endif %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table style="width: 80%; height: 64px; background-color: #bbbbbb">
+        <tr>
+            <td style="color: #000000" align="left" valign="top">Machine package_contents: "{{ machine.package_contents }}"</td>
+        </tr>
+    </table>
+
+    <p>Machine user (username): "{{ machine.end_user.username }}"</p>
+    <p>Machine user: "{{ machine.end_user }}"</p>
+    <a href="{% url 'machines_list' %}" style="color: #0055ff">К списку машин</a>
+    <br><br><hr>
+    <table style="text-align: left; width: 100%; background-color: #000000">
+        <tr style="background-color: #222222">
+            <td style="width: 200px">Begin</td>
+            <td>Some text</td>
+            {% if machine.end_user.id != 1 %}
+                <td style="width: 100px">IS!</td>
+            {% endif %}
+            <td style="width: 100px">End</td>
+        </tr>
+    </table>
+
+    <p style="color:#ff0000">End template machine.html</p>
+
+{% endblock content %}

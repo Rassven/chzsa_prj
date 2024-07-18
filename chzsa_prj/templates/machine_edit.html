@@ -1,0 +1,29 @@
+{% extends 'base/default.html' %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+Ad Create (вкладка в браузере)
+{% endblock title %}
+
+{% block content %}
+<h1>Редактирование/создание машины (?)</h1>
+<hr>
+{% if user.id == 1 %}
+      <h2 style="color: red">Товарищ Администратор, пользуйся, пожалуйста, своей админ-панелью.</h2>
+{% else %}
+      {% if user.id %}
+            <form action="" method="post">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <input type="submit" value="Save">
+            </form>
+            <hr><hr>
+            <a href="{% url 'machines_list' %}">К списку машин</a>
+      {% else %}
+            <p style="color: red">Нет ID Пользователя.</p>
+      {% endif %}
+{% endif %}
+
+{% endblock content %}
