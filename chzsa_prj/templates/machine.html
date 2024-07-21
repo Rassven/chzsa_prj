@@ -1,4 +1,5 @@
 {% extends 'base/default.html' %}
+{% load static %}
 
 {% comment 'Comment' %}{% load custom_filters %}
 {% load custom_tags %}{% endcomment %}
@@ -9,42 +10,71 @@
 
 {% block content %}
     <p style="color:#ff0000">Begin template ad.html</p>
-    Machine = "{{ machine }}" (из __str__)
-    <p>Test for User: name: '{{ user.username }}' user: '{{ user }}', end_user: '{{ machine.end_user }}' operator name: '{{ machine.end_user.username }}'</p>
     {% if machine.end_user.id == user.id %}
         It's your machine!
     {% else %}
         <p style="color: #ff0000">Not your machine.</p>
     {% endif %}
 
-    <table style="height: 36px; width: 80%; background-color: #333333; color: #888888; text-align: center;">
+    <table style="background-color: #cccccc; color: #000000; text-align: center;">
         <tbody>
         <tr>
             <td>Machine Id</td>
-            <td>Machine model</td>
-            <td>EndUser</td>
-            <td>Machine S/N</td>
+            <td>Model</td>
+            <td>Serial number</td>
+            <td>Engine model</td>
+            <td>Engine number</td>
+            <td>Transmission model</td>
+            <td>Transmission number</td>
+            <td>Drive bridge model</td>
+            <td>Drive bridge number</td>
+            <td>Controlled bridge model</td>
+            <td>Controlled bridge number</td>
+            <td>Package contents</td>
             <td>Creation date</td>
-            <td>last_edit_date</td>
-            <td>???</td>
-            <td>???</td>
+            <td>Last edit date</td>
+            <td>Shipment date</td>
+            <td>Last view date</td>
+            <td>Is active</td>
+            <td>Work history</td>
+            <td>Delivery agreement</td>
+            <td>End user</td>
+            <td>End user address</td>
+            <td>Client</td>
+            <td>Service company</td>
             <td>Actions</td>
         </tr>
-
         <tr>
             <td>{{ machine.id }}</td>
-            <td>{{ machine.model }}</td>
-            <td>{{ machine.end_user }}</td>
-            <td>{{ machine.number }}</td>
+            <td>{{ machine.machine_number }}</td>
+            <td>{{ machine.machine_model.name }}</td>
+            <td>{{ machine.engine_model.name }}</td>
+            <td>{{ machine.engine_number }}</td>
+            <td>{{ machine.transmission_model.name }}</td>
+            <td>{{ machine.transmission_number }}</td>
+            <td>{{ machine.drive_bridge_model.name }}</td>
+            <td>{{ machine.drive_bridge_number }}</td>
+            <td>{{ machine.controlled_bridge_model.name }}</td>
+            <td>{{ machine.controlled_bridge_number }}</td>
+            <td>{{ machine.package_contents }}</td>
             <td>{{ machine.creation_date|date:'Y-m-d / H:i:s' }}</td>
             <td>{{ machine.last_edit_date|date:'Y-m-d / H:i:s' }}</td>
-            <td>{{  }}</td>
-            <td>{{  }}</td>
+            <td>{{ machine.shipment_date|date:'Y-m-d / H:i:s' }}</td>
+            <td>N/A</td>
+            <td>{{ machine.is_active }}</td>
+            <td>{{ machine.work_history }}</td>
+            <td>{{ machine.info_about_delivery_agreement }}</td>
+            <td>{{ machine.end_user.name }}</td>
+            <td>{{ machine.end_user_address }}</td>
+            <td>{{ machine.client.name }}</td>
+            <td>{{ machine.service_company.name }}</td>
             <td>{% if perms.machine.edit_machine %}
                     <a style="color: #00ff00" href="{{ machine.id }}/edit/">Edit</a>
+                {% else %}<p style="color: #ff0000">Edit</p>
                 {% endif %}
-                {% if perms.webservice.add_maintenance and machine.end_user.id != user.machine.id %}
-                    <a style="color: #00ff00" href="/webservice/maintenance/add/">Add Maintenance</a>
+                {% if perms.webservice.view_maintenance and machine.end_user.id != user.machine.id %}
+                    <a style="color: #00ff00" href="/webservice/maintenance/view/">View maintenance</a>
+                {% else %}<p style="color: #ff0000">View maintenance</p>
                 {% endif %}
             </td>
         </tr>
@@ -57,21 +87,8 @@
         </tr>
     </table>
 
-    <p>Machine user (username): "{{ machine.end_user.username }}"</p>
-    <p>Machine user: "{{ machine.end_user }}"</p>
     <a href="{% url 'machines_list' %}" style="color: #0055ff">К списку машин</a>
-    <br><br><hr>
-    <table style="text-align: left; width: 100%; background-color: #000000">
-        <tr style="background-color: #222222">
-            <td style="width: 200px">Begin</td>
-            <td>Some text</td>
-            {% if machine.end_user.id != 1 %}
-                <td style="width: 100px">IS!</td>
-            {% endif %}
-            <td style="width: 100px">End</td>
-        </tr>
-    </table>
-
+    <br>
     <p style="color:#ff0000">End template machine.html</p>
 
 {% endblock content %}

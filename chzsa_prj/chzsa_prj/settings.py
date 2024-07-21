@@ -154,9 +154,9 @@ AUTHENTICATION_BACKENDS = [
     # 'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# LOGIN_URL = "/prj/mypage"
-LOGOUT_URL = "/"
-# LOGIN_REDIRECT_URL = "/accounts/login/"
+# LOGIN_URL = "/main"
+# LOGOUT_URL = "/"
+LOGIN_REDIRECT_URL = "/machines"
 # LOGOUT_REDIRECT_URL = "/accounts/login"
 LOGOUT_REDIRECT_URL = "/"
 

@@ -1,4 +1,5 @@
 {% extends 'base/default.html' %}
+{% load static %}
 
 {% comment 'Comment' %}{% load custom_filters %}
 {% load custom_tags %}{% endcomment %}
@@ -9,45 +10,67 @@
 
 {% block content %}
 <p style="color:#ff0000">Begin template machines.html</p>
-<p>All machines (всего: {{ machines.count }} лжет со страничительством)</p>
-<p> Alter all (num/счетчик): {{ machines|length }}  Current page: {{ page_obj.number }} info paginator {{ paginator.num_pages }}</p>
-
+<p>Всего объектов: {{ machines|length }}</p>
+<a href="{% static 'test_output.xlsx' %}" download>Скачать пробный файл Excel</a>
 <hr>
-{% comment "filter" %}<form action="" method="get">
-            {% csrf_token %}
-            {{ filterset.form.as_p }}
-            <input type="submit" value="Найти" />
-</form>{% endcomment %}
+{% comment "filter" %}
+    <form action="" method="get">
+        {% csrf_token %}
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+{% endcomment %}
+
 {% if user.is_active %}
     {% if machines %}
-        <table style="height: 36px; width: 1200px; background-color: #333333; color: #888888; text-align: center;">
-           <tr style="text-align: center;">
-               <td>Id</td>
-               <td>End user</td>
-               <td>Serial number</td>
-               <td>Type</td>
-               <td>Creating time</td>
-               <td>Editing time</td>
-               <td>Details</td>
-               <td>Actions</td>
-           </tr>
-           {% for machine in machines %}
-           <tr style="text-align: center;">
-               <td>{{ machine.id }}</td>
-               <td>{{ machine.end_user }}</td>
-               <td>{{ machine.number }}</td>
-               <td>{{ machine.type }}</td>
-               <td>{{ machine.creation_date|date:'Y-m-d / H:i:s' }}</td>
-               <td>{{ machine.last_edit_date|date:'Y-m-d / H:i:s' }}</td>
-               <td>{{ machine.package_contents }}</td>
-               <td><a style="color: #00ff00" href="machine/{{ machine.id }}">View</a></td>
-           </tr>
-           {% endfor %}
+        Has machines!
+        <table style="background-color: #cccccc; color: #000000; text-align: center;">
+            <tr style="text-align: center;">
+                <td>Id</td>
+                <td>Serial number</td>
+                <td>Model</td>
+                <td>Creation date</td>
+                <td>Engine</td>
+                <td>Transmission</td>
+                <td>Drive bridge</td>
+                <td>Controlled bridge</td>
+                <td>Package contents</td>
+                <td>Delivery agreement</td>
+                <td>Shipment date</td>
+                <td>End user</td>
+                <td>End user address</td>
+                <td>Client</td>
+                <td>Service company</td>
+                <td>Work history</td>
+                <td>Is active</td>
+                <td>Actions</td>
+            </tr>
+            {% for machine in machines %}
+            <tr style="text-align: center;">
+                <td>{{ machine.id }}</td>
+                <td><a href="machine/{{ machine.id }}">{{ machine.machine_number }}</a></td>
+                <td title="MachineModelsList/machine.machine_model.id">{{ machine.machine_model.name }}</td>
+                <td>{{ machine.creation_date|date:'Y-m-d / H:i:s' }}</td>
+                <td title="EngineModelsList/{{ machine.engine_number }}">{{ machine.engine_model.name }}</td>
+                <td title="TransmissionModelsList/{{ machine.transmission_number }}">{{ machine.transmission_model.name }}</td>
+                <td title="DriveBridgeModelsList/{{ machine.drive_bridge_number }}">{{ machine.drive_bridge_model.name }}</td>
+                <td title="ControlledBridgeModelsList/{{ machine.controlled_bridge_number }}">{{ machine.controlled_bridge_model.name }}</td>
+                <td><iframe src="{% static 'demo.py' %}" class="frame1">Specification</iframe></td>
+                <td>{{ machine.info_about_delivery_agreement }}</td>
+                <td>{{ machine.shipment_date|date:'Y-m-d / H:i:s' }}</td>
+                <td title="EndUsersList/{{ machine.end_user.id }}">{{ machine.end_user.name }}</td>
+                <td>{{ machine.end_user_address }}</td>
+                <td title="ClientsList/{{ machine.client.id }}">{{ machine.client.name }}</td>
+                <td title="ServiceCompaniesList/{{ machine.service_company.id }}">{{ machine.service_company.name }}</td>
+                <td>{{ machine.work_history }}</td>
+                <td>{{ machine.is_active }}</td>
+                <td><a style="color: #00ff00" href="machine/{{ machine.id }}">View</a></td>
+            </tr>
+            {% endfor %}
         </table>
     {% else %}
-       <h2>Пока нет объявлений.</h2>
+        <h2>Пока нет машин.</h2>
     {% endif %}
-
 {% else %}
 Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
 {% endif %}

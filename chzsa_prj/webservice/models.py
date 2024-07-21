@@ -26,10 +26,11 @@ class Machine(models.Model):
     package_contents = models.TextField(null=True, blank=True, verbose_name=_('Package contents'))
     client = models.ForeignKey(to='ClientsList', on_delete=models.PROTECT, verbose_name=_('Client'))
     service_company = models.ForeignKey(to='ServiceCompaniesList', on_delete=models.PROTECT, verbose_name=_('Service company name'))
+    work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Machine work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Machine status'))
 
     def __str__(self):
-        return f'Machine:{self.machine_number}'
+        return f'Machine: {self.machine_number}'
 
     # def get_url(self):
     #     return reverse('machine', args=[str(self.id)])
@@ -45,6 +46,9 @@ class MachineModelsList(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Machine work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Machine model status'))
 
+    def __str__(self):
+        return f'Machine: {self.name}'
+
 
 class EngineModelsList(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
@@ -54,6 +58,9 @@ class EngineModelsList(models.Model):
     description = models.TextField(null=False, blank=False, verbose_name=_('Engine model description'))
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Engine work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Engine status'))
+
+    def __str__(self):
+        return f'Engine: {self.name}'
 
 
 class TransmissionModelsList(models.Model):
@@ -65,6 +72,9 @@ class TransmissionModelsList(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Transmission work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Transmission status'))
 
+    def __str__(self):
+        return f'Transmission: {self.name}'
+
 
 class DriveBridgeModelsList(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
@@ -75,6 +85,9 @@ class DriveBridgeModelsList(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Drive bridge work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Drive bridge status'))
 
+    def __str__(self):
+        return f'Drive bridge: {self.name}'
+
 
 class ControlledBridgeModelsList(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
@@ -84,6 +97,9 @@ class ControlledBridgeModelsList(models.Model):
     description = models.TextField(null=False, blank=False, verbose_name=_('Controlled bridge model description'))
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Controlled bridge work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Controlled bridge status'))
+
+    def __str__(self):
+        return f'Controlled bridge: {self.name}'
 
 
 class TheUser(User):
@@ -96,7 +112,7 @@ class TheUser(User):
                    ('client', 'Клиент (?)'), ]
     group_name = models.CharField(max_length=128, choices=CHOICE_LIST, null=False, blank=False, verbose_name=_("Group name"))
     # group_permissions = models.ManyToManyField(Permission, null=False, blank=False, verbose_name=_("Group permissions"))
-    # personal_code = pc_gen(name=username, group=group_name, date=date_joined, type="card")
+    # access_code = ac_gen(name=username, group=group_name, date=date_joined, type="card")
     access_code = models.CharField(max_length=24, default='0000-0000-0000-0000', unique=True, verbose_name=_('Access code'), )
     # last_viewed_url = models.URLField(null=True, blank=True, verbose_name=_('Last viewed page'), )
     # Уведомления на ...
@@ -111,40 +127,52 @@ class TheUser(User):
         return f'<{self.username}>'  # ({self.email})>'
 
 
-class EndUsersList(TheUser):
-    # creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
-    # last_edit_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last edit'))
+class EndUsersList(models.Model):
+    creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
+    last_edit_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last edit'))
     # last_view_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last view'))
     name = models.TextField(null=False, blank=False, verbose_name=_('End user name'))
     description = models.TextField(null=False, blank=False, verbose_name=_('End user description'))
-    # is_active = models.BooleanField(default=True, verbose_name=_('End user status'))
+    is_active = models.BooleanField(default=True, verbose_name=_('End user status'))
+
+    def __str__(self):
+        return f'Enduser: {self.name}'
 
 
-class ClientsList(TheUser):
-    # creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
-    # last_edit_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last edit'))
+class ClientsList(models.Model):
+    creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
+    last_edit_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last edit'))
     # last_view_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last view'))
     name = models.TextField(null=False, blank=False, verbose_name=_('Client name'))
     description = models.TextField(null=False, blank=False, verbose_name=_('Client description'))
-    # is_active = models.BooleanField(default=True, verbose_name=_('Client status'))
+    is_active = models.BooleanField(default=True, verbose_name=_('Client status'))
+
+    def __str__(self):
+        return f'Client: {self.name}'
 
 
-class ServiceCompaniesList(TheUser):  # по заданию одна
-    # creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
-    # last_edit_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last edit'))
+class ServiceCompaniesList(models.Model):  # по заданию одна
+    creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
+    last_edit_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last edit'))
     # last_view_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last view'))
     name = models.TextField(null=False, blank=False, verbose_name=_('Service company name'))
     description = models.TextField(null=False, blank=False, verbose_name=_('Service company description'))
-    # is_active = models.BooleanField(default=True, verbose_name=_('Service company status'))
+    is_active = models.BooleanField(default=True, verbose_name=_('Service company status'))
+
+    def __str__(self):
+        return f'Service company: {self.name}'
 
 
-class MaintenanceOrganizationsList(TheUser):
-    # creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
-    # last_edit_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last edit'))
+class MaintenanceOrganizationsList(models.Model):
+    creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
+    last_edit_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last edit'))
     # last_view_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last view'))
     name = models.TextField(null=False, blank=False, verbose_name=_('Maintenance organization name'))
     description = models.TextField(null=False, blank=False, verbose_name=_('Maintenance organization description'))
-    # is_active = models.BooleanField(default=True, verbose_name=_('Maintenance organization status'))
+    is_active = models.BooleanField(default=True, verbose_name=_('Maintenance organization status'))
+
+    def __str__(self):
+        return f'Maintenance organization: {self.name}'
 
 
 class MaintenanceInfo(models.Model):
@@ -162,7 +190,7 @@ class MaintenanceInfo(models.Model):
     maintenance_description = models.TextField(null=False, blank=False, verbose_name=_('Maintenance description'))
 
     def __str__(self):
-        return f'MaintenanceInfo:{self.maintenance_date}'
+        return f'Maintenance: {self.maintenance_date}'
 
     # def get_url(self):
     #     return reverse('maintenance', args=[str(self.id)])
@@ -175,6 +203,9 @@ class MaintenanceTypesList(models.Model):
     # last_view_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last view'))
     name = models.TextField(null=False, blank=False, verbose_name=_('Maintenance type name'))
     description = models.TextField(null=False, blank=False, verbose_name=_('Maintenance type description'))
+
+    def __str__(self):
+        return f'Maintenance type: {self.name}'
 
 
 class ClaimInfo(models.Model):
@@ -194,7 +225,7 @@ class ClaimInfo(models.Model):
     service_company = models.ForeignKey(to='ServiceCompaniesList', null=False, blank=False, on_delete=models.PROTECT, verbose_name=_('Service company name'))
 
     def __str__(self):
-        return f'ClaimInfo:{self.failure_date}'
+        return f'Claim: {self.failure_date}'
 
     # def get_url(self):
     #     return reverse('claim', args=[str(self.id)])
@@ -211,6 +242,9 @@ class NodesList(models.Model):
     is_active = models.BooleanField(default=True, verbose_name=_('Node status'))
     # См. комплектацию... Данные модели Machine.
 
+    def __str__(self):
+        return f'Node: {self.name}'
+
 
 class RecoveryMethodsList(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name=_('Creation date'))
@@ -218,3 +252,16 @@ class RecoveryMethodsList(models.Model):
     # last_view_date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=_('Last view'))
     name = models.TextField(null=False, blank=False, verbose_name=_('Recovery method name'))
     description = models.TextField(null=False, blank=False, verbose_name=_('Recovery method description'))
+
+    def __str__(self):
+        return f'Recovery method: {self.name}'
+
+
+# class MetaModel(models.Model, User):
+#     CHOICE_LIST = [('enduser', 'Конечный пользователь'), ('service', 'Обслуживающая организация'),
+#                    ('manager', 'Представитель производителя'), ]
+#     group_name = models.CharField(max_length=128, choices=CHOICE_LIST, null=False, blank=False, verbose_name=_("Group name"))
+#     group = models.ForeignKey(to='GROUP', null=False, blank=False, on_delete=models.PROTECT, verbose_name=_('Group'))
+#     # cross table..
+#     # group_permissions = models.ManyToManyField(Permission, null=False, blank=False, verbose_name=_("Group permissions"))
+#     user = models.ForeignKey(to='TheUser', null=False, blank=False, on_delete=models.PROTECT, verbose_name=_('User'))

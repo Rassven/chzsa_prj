@@ -11,3 +11,10 @@ class LogIn(TemplateView):
     # form_class = LoginForm
     success_url = '/accounts/login'
     template_name = '/accounts/login.html'
+
+
+class LogOut(TemplateView):
+    # model = TheUser
+    # form_class = LoginForm
+    success_url = '/accounts/logout'
+    template_name = '/logout.html'
