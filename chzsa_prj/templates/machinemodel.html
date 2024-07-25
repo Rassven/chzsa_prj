@@ -1,0 +1,45 @@
+{% extends 'base/default.html' %}
+{% load static %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    MachineModel{{ machinemodel.id }} (вкладка в браузере)
+{% endblock title %}
+
+{% block content %}
+
+{% if user.is_active %}
+    {% if machinemodel %}
+        <h3>Описание модели машины №{{ machinemodel.id }}</h3><br>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Model name</th>
+                <th>Description</th>
+                <th>Creation date</th>
+                <th>Last edit date</th>
+                <th>Work history</th>
+                <th>Is active</th>
+            </tr>
+            <tr>
+                <td>{{ machinemodel.id }}</td>
+                <td>{{ machinemodel.name }}</td>
+                <td>{{ machinemodel.description }}</td>
+                <td>{{ machinemodel.creation_date|date:'Y-m-d / H:i:s' }}</td>
+                <td>{{ machinemodel.last_edit_date|date:'Y-m-d / H:i:s' }}</td>
+                <td>{{ machinemodel.work_history }}</td>
+                <td>{{ machinemodel.is_active }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <h2>Empty.</h2>
+    {% endif %}
+{% else %}
+Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
+{% endif %}
+
+<a href="{% url 'machines_list' %}">Машины</a>
+<p style="color:#ff0000">End template machinemodel.html</p>
+{% endblock content %}

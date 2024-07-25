@@ -10,63 +10,81 @@
 
 {% block content %}
 <p style="color:#ff0000">Begin template machines.html</p>
-<p>Всего объектов: {{ machines|length }}</p>
-<a href="{% static 'test_output.xlsx' %}" download>Скачать пробный файл Excel</a>
-<hr>
-{% comment "filter" %}
+<h3>Описание всех машин (найдено: {{ machines|length }})</h3><br>
+<a href="{% static 'test_output.xlsx' %}" style="color: #bbbbbb">Скачать пробный файл Excel</a>
+{% comment "filter" %}{% endcomment %}
     <form action="" method="get">
         {% csrf_token %}
         {{ filterset.form.as_p }}
         <input type="submit" value="Найти" />
     </form>
-{% endcomment %}
 
+<br>
 {% if user.is_active %}
     {% if machines %}
-        Has machines!
-        <table style="background-color: #cccccc; color: #000000; text-align: center;">
-            <tr style="text-align: center;">
-                <td>Id</td>
-                <td>Serial number</td>
-                <td>Model</td>
-                <td>Creation date</td>
-                <td>Engine</td>
-                <td>Transmission</td>
-                <td>Drive bridge</td>
-                <td>Controlled bridge</td>
-                <td>Package contents</td>
-                <td>Delivery agreement</td>
-                <td>Shipment date</td>
-                <td>End user</td>
-                <td>End user address</td>
-                <td>Client</td>
-                <td>Service company</td>
-                <td>Work history</td>
-                <td>Is active</td>
-                <td>Actions</td>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Serial number</th>
+                <th>Model</th>
+                <th>Creation date</th>
+                <th>Engine</th>
+                <th>Transmission</th>
+                <th>Drive bridge</th>
+                <th>Controlled bridge</th>
+                <th>Package contents</th>
+                <th>Delivery agreement</th>
+                <th>Shipment date</th>
+                <th>End user</th>
+                <th>End user address</th>
+                <th>Client</th>
+                <th>Service company</th>
+                <th>Work history</th>
+                <th>Is active</th>
+                <th>Actions</th>
             </tr>
             {% for machine in machines %}
-            <tr style="text-align: center;">
+            <tr>
                 <td>{{ machine.id }}</td>
                 <td><a href="machine/{{ machine.id }}">{{ machine.machine_number }}</a></td>
-                <td title="MachineModelsList/machine.machine_model.id">{{ machine.machine_model.name }}</td>
+                <td><a href="machinemodel/{{ machine.machine_model.id }}" title="Показать данные конкретной модели">{{ machine.machine_model.name }}</a></td>
                 <td>{{ machine.creation_date|date:'Y-m-d / H:i:s' }}</td>
-                <td title="EngineModelsList/{{ machine.engine_number }}">{{ machine.engine_model.name }}</td>
-                <td title="TransmissionModelsList/{{ machine.transmission_number }}">{{ machine.transmission_model.name }}</td>
-                <td title="DriveBridgeModelsList/{{ machine.drive_bridge_number }}">{{ machine.drive_bridge_model.name }}</td>
-                <td title="ControlledBridgeModelsList/{{ machine.controlled_bridge_number }}">{{ machine.controlled_bridge_model.name }}</td>
-                <td><iframe src="{% static 'demo.py' %}" class="frame1">Specification</iframe></td>
+                <td><a href="enginemodel/{{ machine.engine_model.id }}" title="Показать данные конкретной модели">{{ machine.engine_model.name }}</a></td>
+                <td><a href="transmissionmodel/{{ machine.transmission_model.id }}" title="Показать данные конкретной модели">{{ machine.transmission_model.name }}</a></td>
+                <td title="DriveBridgeModel/{{ machine.drive_bridge_number }}">{{ machine.drive_bridge_model.name }}</td>
+                <td title="ControlledBridgeModel/{{ machine.controlled_bridge_number }}">{{ machine.controlled_bridge_model.name }}</td>
+                <td>{{ machine.package_contents }}</td>
                 <td>{{ machine.info_about_delivery_agreement }}</td>
                 <td>{{ machine.shipment_date|date:'Y-m-d / H:i:s' }}</td>
-                <td title="EndUsersList/{{ machine.end_user.id }}">{{ machine.end_user.name }}</td>
+                <td title="EndUsers/{{ machine.end_user.id }}">{{ machine.end_user.name }}</td>
                 <td>{{ machine.end_user_address }}</td>
-                <td title="ClientsList/{{ machine.client.id }}">{{ machine.client.name }}</td>
-                <td title="ServiceCompaniesList/{{ machine.service_company.id }}">{{ machine.service_company.name }}</td>
-                <td>{{ machine.work_history }}</td>
+                <td title="Clients/{{ machine.client.id }}">{{ machine.client.name }}</td>
+                <td title="ServiceCompanies/{{ machine.service_company.id }}">{{ machine.service_company.name }}</td>
+                <td><iframe src="{% static 'work_history.py' %}" class="frame1">Work_history</iframe></td>
                 <td>{{ machine.is_active }}</td>
                 <td><a style="color: #00ff00" href="machine/{{ machine.id }}">View</a></td>
             </tr>
             {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td><a href="{% url 'machinemodels' %}" title="Показать все модели">All</a></td>
+                <td></td>
+                <td><a href="{% url 'enginemodels' %}" title="Показать все модели">All</a></td>
+                <td><a href="{% url 'transmissionmodels' %}" title="Показать все модели">All</a></td>
+                <td><a href="{% url 'drivebridgemodels' %}" title="Показать все модели">All</a></td>
+                <td>All</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>All</td>
+                <td>All</td>
+                <td>All</td>
+                <td>All</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
         </table>
     {% else %}
         <h2>Пока нет машин.</h2>

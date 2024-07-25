@@ -9,40 +9,40 @@
 {% endblock title %}
 
 {% block content %}
-    <p style="color:#ff0000">Begin template ad.html</p>
+    <p style="color:#ff0000">Begin template machine.html</p>
     {% if machine.end_user.id == user.id %}
         It's your machine!
     {% else %}
         <p style="color: #ff0000">Not your machine.</p>
     {% endif %}
-
+<h3>Данные по машине №{{ machine.id }}</h3><br>
     <table style="background-color: #cccccc; color: #000000; text-align: center;">
         <tbody>
         <tr>
-            <td>Machine Id</td>
-            <td>Model</td>
-            <td>Serial number</td>
-            <td>Engine model</td>
-            <td>Engine number</td>
-            <td>Transmission model</td>
-            <td>Transmission number</td>
-            <td>Drive bridge model</td>
-            <td>Drive bridge number</td>
-            <td>Controlled bridge model</td>
-            <td>Controlled bridge number</td>
-            <td>Package contents</td>
-            <td>Creation date</td>
-            <td>Last edit date</td>
-            <td>Shipment date</td>
-            <td>Last view date</td>
-            <td>Is active</td>
-            <td>Work history</td>
-            <td>Delivery agreement</td>
-            <td>End user</td>
-            <td>End user address</td>
-            <td>Client</td>
-            <td>Service company</td>
-            <td>Actions</td>
+            <th>Machine Id</th>
+            <th>Model</th>
+            <th>Serial number</th>
+            <th>Engine model</th>
+            <th>Engine number</th>
+            <th>Transmission model</th>
+            <th>Transmission number</th>
+            <th>Drive bridge model</th>
+            <th>Drive bridge number</th>
+            <th>Controlled bridge model</th>
+            <th>Controlled bridge number</th>
+            <th>Package contents</th>
+            <th>Creation date</th>
+            <tmp>Last edit date</tmp>
+            <th>Shipment date</th>
+            <tmp>Last view date</tmp>
+            <th>Is active</th>
+            <tmp>Work history</tmp>
+            <th>Delivery agreement</th>
+            <th>End user</th>
+            <tmp>End user address</tmp>
+            <th>Client</th>
+            <th>Service company</th>
+            <th>Actions</th>
         </tr>
         <tr>
             <td>{{ machine.id }}</td>
@@ -58,32 +58,32 @@
             <td>{{ machine.controlled_bridge_number }}</td>
             <td>{{ machine.package_contents }}</td>
             <td>{{ machine.creation_date|date:'Y-m-d / H:i:s' }}</td>
-            <td>{{ machine.last_edit_date|date:'Y-m-d / H:i:s' }}</td>
+            <tmp>{{ machine.last_edit_date|date:'Y-m-d / H:i:s' }}</tmp>
             <td>{{ machine.shipment_date|date:'Y-m-d / H:i:s' }}</td>
-            <td>N/A</td>
+            <tmp>N/A</tmp>
             <td>{{ machine.is_active }}</td>
-            <td>{{ machine.work_history }}</td>
+            <tmp>{{ machine.work_history }}</tmp>
             <td>{{ machine.info_about_delivery_agreement }}</td>
             <td>{{ machine.end_user.name }}</td>
-            <td>{{ machine.end_user_address }}</td>
+            <tmp>{{ machine.end_user_address }}</tmp>
             <td>{{ machine.client.name }}</td>
             <td>{{ machine.service_company.name }}</td>
             <td>{% if perms.machine.edit_machine %}
-                    <a style="color: #00ff00" href="{{ machine.id }}/edit/">Edit</a>
+                    <a style="color: #00aa00" href="{{ machine.id }}/edit/">Edit</a>
                 {% else %}<p style="color: #ff0000">Edit</p>
                 {% endif %}
                 {% if perms.webservice.view_maintenance and machine.end_user.id != user.machine.id %}
-                    <a style="color: #00ff00" href="/webservice/maintenance/view/">View maintenance</a>
+                    <a style="color: #ff00ff" href="/webservice/maintenance/view/">View maintenance</a>
                 {% else %}<p style="color: #ff0000">View maintenance</p>
                 {% endif %}
             </td>
         </tr>
         </tbody>
     </table>
-
-    <table style="width: 80%; height: 64px; background-color: #bbbbbb">
+    <br>
+    <table style="background-color: #bbbbbb">
         <tr>
-            <td style="color: #000000" align="left" valign="top">Machine package_contents: "{{ machine.package_contents }}"</td>
+            <td style="color: #000000" align="left" valign="top">Machine work history: "{{ machine.work_history }}"</td>
         </tr>
     </table>
 

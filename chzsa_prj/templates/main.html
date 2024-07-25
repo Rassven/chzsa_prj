@@ -10,10 +10,8 @@
 
     </div>
 <h4>
-    <p>Хэш текущего файла спецификации (hex): </p>
-    <p>Хэш-сумма записаная в файле (hex): </p>
-    <p>Хэш-сумма файла с сайта производителя (hex): </p>
+
     <p><a href="{% url 'machines_list' %}">Машины</a></p>
-    <p>Принят файл спецификации: <iframe src="{% static 'demo.py' %}" class="frame1">Specification</iframe></p>
+    <p>Файл спецификации (пример): <iframe src="{% static 'demo.py' %}" class="frame1">Specification</iframe></p>
 </h4>
 {% endblock content %}

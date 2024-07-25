@@ -14,7 +14,7 @@ class MachineFilter(FilterSet):
 
 
 class MaintenancesFilter(FilterSet):
-    type = ModelChoiceFilter(queryset=MaintenanceTypesList.objects.all(), label='name', empty_label='любая', )
+    # type = ModelChoiceFilter(queryset=MaintenanceTypesList.objects.all(), label='name', empty_label='любая', )
     create_time = DateTimeFilter(field_name='edit_time', lookup_expr='gte',
                                  widget=DateTimeInput(format='%Y-%m-%d', attrs={'type': 'datetime-local'}, ), )
 

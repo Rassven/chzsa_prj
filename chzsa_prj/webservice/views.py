@@ -6,43 +6,139 @@ from django.views.decorators.csrf import csrf_protect
 
 # my app:
 from .models import *
-from .filters import MachineFilter
+from .filters import MachineFilter, MaintenancesFilter
 from .forms import MachineForm
-# from ..utils import spc_hash_check, xlsx_report_creator
+from .utils.xlsx_report_creator import *
 
 
-class MachinesList(PermissionRequiredMixin, ListView):
-    permission_required = ('webservice.view_machine',)
+class MachinesList(ListView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machine',)
     model = Machine
     queryset = Machine.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
     ordering = '-creation_date'
     template_name = 'machines.html'
-
     context_object_name = 'machines'
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     self.filterset = MachineFilter(self.request.GET, queryset)
-    #     return self.filterset.qs
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = MachineFilter(self.request.GET, queryset)
+        return self.filterset.qs
 
 
-class MachineView(PermissionRequiredMixin, DetailView):
-    permission_required = ('webservice.view_machine',)
+class MachineView(DetailView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machine',)
     model = Machine
     template_name = 'machine.html'
     context_object_name = 'machine'
 
 
-class MachineEdit(PermissionRequiredMixin, UpdateView):
-    permission_required = ('webservice.edit_machine', )
+class MachineEdit(UpdateView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.edit_machine', )
     form_class = MachineForm
     model = Machine
     template_name = 'machine_edit.html'
     success_url = reverse_lazy('machines_list')
 
 
-def start(request):
-    print('Start page message: >>> Запущен сервер приложения. <<<')
+class MachineModels(ListView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machinemodelslist',)
+    model = MachineModelsList
+    queryset = MachineModelsList.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
+    ordering = '-creation_date'
+    template_name = 'machinemodels.html'
+    context_object_name = 'machinemodels'
+
+
+class MachineModelView(DetailView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machinemodelslist',)
+    model = MachineModelsList
+    # queryset = MachineModelsList  #.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
+    # ordering = '-creation_date'
+    template_name = 'machinemodel.html'
+    context_object_name = 'machinemodel'
+
+
+class EngineModels(ListView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_enginemodelslist',)
+    model = EngineModelsList
+    queryset = EngineModelsList.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
+    ordering = '-creation_date'
+    template_name = 'enginemodels.html'
+    context_object_name = 'enginemodels'
+
+
+class EngineModelView(DetailView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machine',)
+    model = EngineModelsList
+    template_name = 'engine.html'
+    context_object_name = 'engine'
+
+
+class TransmissionModels(ListView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_enginemodelslist',)
+    model = TransmissionModelsList
+    queryset = TransmissionModelsList.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
+    ordering = '-creation_date'
+    template_name = 'transmissionmodels.html'
+    context_object_name = 'transmissionmodels'
+
+
+class TransmissionModelView(DetailView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machine',)
+    model = TransmissionModelsList
+    template_name = 'transmission.html'
+    context_object_name = 'transmission'
+
+
+class DriveBridgeModels(ListView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_enginemodelslist',)
+    model = DriveBridgeModelsList
+    queryset = DriveBridgeModelsList.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
+    ordering = '-creation_date'
+    template_name = 'drivebridgemodels.html'
+    context_object_name = 'drivebridgemodels'
+
+
+class DriveBridgeModelView(DetailView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machine',)
+    model = DriveBridgeModelsList
+    template_name = 'drivebridge.html'
+    context_object_name = 'drivebridge'
+
+
+class MaintenanceList(ListView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_enginemodelslist',)
+    model = MaintenanceInfo
+    # queryset = MaintenanceInfo.objects.all().filter(machine=1)  # .order_by('-creation_date')
+    # ordering = '-creation_date'
+    ordering = 'machine'
+    template_name = 'maintenances.html'
+    context_object_name = 'maintenances'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = MaintenancesFilter(self.request.GET, queryset)
+        return self.filterset.qs
+
+
+class MaintenanceView(DetailView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machine',)
+    model = MaintenanceInfo
+    template_name = 'maintenance.html'
+    context_object_name = 'maintenance'
+
+
+def xl_test(request):
+    # print(Machine.mro())
+    prp_list = list(Machine.__dict__.keys())
+    print(prp_list)
+    if 'machine_model' in prp_list:
+        print("FIND PROP", Machine.machine_model, Machine.machine_model.__dict__)
+    message = str(Machine.machine_model) + "\n" + str(Machine.machine_model.__dict__) + str(hasattr(Machine, 'machine_number'))
+    return render(request, 'xl_test.html', context={"display": message})
+
+
+def welcome(request):
     return render(request, 'welcome.html')
 
 
@@ -60,3 +156,9 @@ class ToDo(TemplateView):
 
 class Comments(TemplateView):
     template_name = 'comments.html'
+
+
+def download_xlsx(request):
+    # сборщик опробовался на простом классе, а не на модели django и да, уже подсвечивает что не итерабельна.. И структура явно другая...
+    return create_excel_report()
+

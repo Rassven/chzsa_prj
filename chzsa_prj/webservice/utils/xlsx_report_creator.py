@@ -1,5 +1,5 @@
 import openpyxl  # https://openpyxl.readthedocs.io/en/stable
-from webservice.models import *
+from ..models import *
 
 
 def write_table(work_model, sheet_model, header_dict, header_row_position):

@@ -1,0 +1,96 @@
+{% extends 'base/default.html' %}
+{% load static %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    Maintenances (вкладка в браузере)
+{% endblock title %}
+
+{% block content %}
+<p style="color:#ff0000">Begin template maintenances.html</p>
+{% comment "filter" %}{% endcomment %}
+    <form action="" method="get">
+        {% csrf_token %}
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+
+{% if user.is_active %}
+    {% if maintenances %}
+        <h3>Описание проведенных ТО (найдено: {{ maintenances|length }})</h3><br>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Maintenance type</th>
+                <th>Maintenance date</th>
+                <th>Machine</th>
+                <th>Worked time (h)</th>
+                <th>Maintenance organization</th>
+                <th>Service company</th>
+                <th>Order number</th>
+                <th>Order date</th>
+                <th>Maintenance description</th>
+                <th>Actions</th>
+            </tr>
+            {% for maintenance in maintenances %}
+            <tr>
+                <td><a href="maintenance/{{ maintenance.id }}">{{ maintenance.id }}</a></td>
+                <td>{{ maintenance.maintenance_type }}</td>
+                <td>{{ maintenance.maintenance_date }}</td>
+                <td>{{ maintenance.machine.machine_model }}</td>
+                <td>{{ maintenance.worked_hours_time }}</td>
+                <td>{{ maintenance.maintenance_organization.name }}</td>
+                <td>{{ maintenance.service_company.name }}</td>
+                <td>{{ maintenance.order_number }}</td>
+                <td>{{ maintenance.order_date|date:'Y-m-d / H:i:s' }}</td>
+                <td>{{ maintenance.maintenance_description }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td>All</td>
+                <td></td>
+                <td>All</td>
+                <td></td>
+                <td>All</td>
+                <td>All</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    {% else %}
+        <h2>Пока нет записей.</h2>
+    {% endif %}
+{% else %}
+Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
+{% endif %}
+
+{% comment 'Comment' %}
+{# страничительство #}
+{% if paginator.num_pages > 1 %}
+<h2 style="text-align: center">
+    pages<
+{% if page_obj.has_previous %}
+    <a href="?{% url_replace page=1 %}">1</a>
+    {% if page_obj.previous_page_number != 1 %}
+        ...<a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+    {% endif %}
+{% endif %}
+{{ page_obj.number }}
+{% if page_obj.has_next %}
+    <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+    {% if paginator.num_pages != page_obj.next_page_number %}
+        ...<a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+    {% endif %}
+{% endif %}
+></h2>
+{% else %}
+Без страничительства
+{% endif %}
+{% endcomment %}
+
+<p style="color:#ff0000">End template maintenances.html</p>
+{% endblock content %}

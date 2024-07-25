@@ -11,16 +11,9 @@ Welcome page (имя вкладки в браузере)
 
 {% block content %}
 {% comment 'Comment' %}{% endcomment %}
-<p><h1>Admin: Admin, Password: 1234</h1></p>
+
 <p><h1>Проверьте комплектацию и технические характеристики техники Силант</h1></p>
-            {% if sfileavalible %}
-                <button disabled>Нет обновлений</button>
-            {% else %}
-                <div style="display: inline-block">
-                    <input type="file" id="myFile" onchange="selectFolder()" title="Load file"
-                           name="uploadfile" placeholder="File name" size="200">
-                    <input type="submit" value="Load">
-                </div>
+
                 <form>
                     <label for="node-select">Выберите критерий сортировки</label>
                     <select name="node" id="node-select">
@@ -31,25 +24,24 @@ Welcome page (имя вкладки в браузере)
                         <option value="controlled_bridge_number">Управляемый мост</option>
                     </select>
                 </form>
-            {% endif %}
+
 
         <p style="height: 32px"><h2>
-            Введите заводской номер: <input title="Заводской номер" name="Machine number" >
+            Введите модель погрузчика: <input title="Модель погрузчика" name="Machine_model" >
             <button type="submit" title="Найти">Поиск</button>
         </h2></p>
 
         <br>
         <h2>
             <p>Результаты поиска:</p>
-            <div class="find-results">Информация о комплектации и технических характеристиках Вашей техники.</div>
+            <div class="find-results">Информация о комплектации и технических характеристиках.</div>
         </h2>
         <br>
 
         <h2><p>Детальная информация: <button disabled>Выгрузить таблицу в файл</button></p></h2>
         <div class="detail-info">Details</div>
-<p>Прочитайте правила <a href="/webservice/rules/">здесь</a></p>
 
-<button type="button" onclick="alert(document.referrer)">адрес предшествующей страницы</button>
+{% comment 'Comment' %}<button type="button" onclick="alert(document.referrer)">адрес предшествующей страницы</button>{% endcomment %}
 
 <p>
 {% if user.id == None %}
@@ -60,5 +52,4 @@ Welcome page (имя вкладки в браузере)
 
 {% comment 'Comment' %}<div class="alert-box"><span class="close-btn" onclick="this.parentElement.style.display='none';">&times</span>Alert-box.</div>{% endcomment %}
 
-<p style="color:#ff0000">End template welcome.html</p>
 {% endblock content %}

@@ -17,12 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from webservice import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', views.start, name="welcome"),
+    path('', views.welcome, name="welcome"),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     # path("accounts/", include("allauth.urls")),
     path('webservice/', include('webservice.urls')),
 ]

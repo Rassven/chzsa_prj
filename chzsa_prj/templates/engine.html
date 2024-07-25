@@ -1,0 +1,39 @@
+{% extends 'base/default.html' %}
+{% load static %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    Engine #{{ engine.id }}
+{% endblock title %}
+
+{% block content %}
+<h3>Данные по двигателю №{{ engine.id }}</h3><br>
+    <table>
+        <tr>
+            <th>Engine Id</th>
+            <th>Engine model</th>
+            <th>Creation date</th>
+            <th>Last edit date</th>
+            <th>Description</th>
+            <th>Work history</th>
+            <th>Is active</th>
+        </tr>
+        <tr>
+            <td>{{ engine.id }}</td>
+            <td>{{ engine.name }}</td>
+            <td>{{ engine.creation_date|date:'Y-m-d / H:i:s' }}</td>
+            <td>{{ engine.last_edit_date|date:'Y-m-d / H:i:s' }}</td>
+            <td>{{ engine.description }}</td>
+            <td>{{ engine.work_history }}</td>
+            <td>{{ engine.is_active }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="{% url 'machines_list' %}" style="color: #0055ff">К списку машин</a>
+    <br>
+    <p style="color:#ff0000">End template machine.html</p>
+
+{% endblock content %}

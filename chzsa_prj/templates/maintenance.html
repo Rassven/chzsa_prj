@@ -1,0 +1,46 @@
+{% extends 'base/default.html' %}
+{% load static %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    Maintenance #{{ maintenance.id }}
+{% endblock title %}
+
+{% block content %}
+<h3>Данные по ТО №{{ maintenance.id }}</h3><br>
+    <table>
+        <tr>
+                <th>Id</th>
+                <th>Maintenance type</th>
+                <th>Maintenance date</th>
+                <th>Machine</th>
+                <th>Worked time (h)</th>
+                <th>Maintenance organization</th>
+                <th>Service company</th>
+                <th>Order number</th>
+                <th>Order date</th>
+                <th>Maintenance description</th>
+                <th>Actions</th>
+        </tr>
+        <tr>
+                <td>{{ maintenance.id }}</td>
+                <td>{{ maintenance.maintenance_type }}</td>
+                <td>{{ maintenance.maintenance_date }}</td>
+                <td>{{ maintenance.machine.machine_model }}</td>
+                <td>{{ maintenance.worked_hours_time }}</td>
+                <td>{{ maintenance.maintenance_organization.name }}</td>
+                <td>{{ maintenance.service_company.name }}</td>
+                <td>{{ maintenance.order_number }}</td>
+                <td>{{ maintenance.order_date|date:'Y-m-d / H:i:s' }}</td>
+                <td>{{ maintenance.maintenance_description }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="{% url 'machines_list' %}" style="color: #0055ff">К списку машин</a>
+    <br>
+    <p style="color:#ff0000">End template maintenance.html</p>
+
+{% endblock content %}

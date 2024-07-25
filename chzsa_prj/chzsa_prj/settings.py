@@ -156,7 +156,7 @@ AUTHENTICATION_BACKENDS = [
 
 # LOGIN_URL = "/main"
 # LOGOUT_URL = "/"
-LOGIN_REDIRECT_URL = "/machines"
+LOGIN_REDIRECT_URL = "/webservice/machines"
 # LOGOUT_REDIRECT_URL = "/accounts/login"
 LOGOUT_REDIRECT_URL = "/"
 

@@ -1,0 +1,67 @@
+{% extends 'base/default.html' %}
+{% load static %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    TransmissionModelsList (вкладка в браузере)
+{% endblock title %}
+
+{% block content %}
+{% if user.is_active %}
+    {% if transmissionmodels %}
+        <h3>Описание моделей трансмиссий (найдено: {{ transmissionmodels|length }})</h3><br>
+        <table style="background-color: #cccccc; color: #000000;">
+            <tr style="text-align: center; background-color: #ffffff; border: 1px solid black;">
+                <th>Id</th>
+                <th>Model name</th>
+                <th>Description</th>
+                <th>Creation date</th>
+                <th>Last edit date</th>
+                <th>Is active</th>
+            </tr>
+            {% for model in transmissionmodels %}
+            <tr style="text-align: center; border: 1px solid #ccc;">
+                <td>{{ model.id }}</td>
+                <td>{{ model.name }}</td>
+                <td>{{ model.description }}</td>
+                <td>{{ model.creation_date|date:'Y-m-d / H:i:s' }}</td>
+                <td>{{ model.last_edit_date|date:'Y-m-d / H:i:s' }}</td>
+                <td>{{ model.is_active }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Модели не заданы.</h2>
+    {% endif %}
+{% else %}
+Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
+{% endif %}
+
+{% comment 'Comment' %}
+{# страничительство #}
+{% if paginator.num_pages > 1 %}
+<h2 style="text-align: center">
+    pages<
+{% if page_obj.has_previous %}
+    <a href="?{% url_replace page=1 %}">1</a>
+    {% if page_obj.previous_page_number != 1 %}
+        ...<a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+    {% endif %}
+{% endif %}
+{{ page_obj.number }}
+{% if page_obj.has_next %}
+    <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+    {% if paginator.num_pages != page_obj.next_page_number %}
+        ...<a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+    {% endif %}
+{% endif %}
+></h2>
+{% else %}
+Без страничительства
+{% endif %}
+{% endcomment %}
+<a href="{% url 'machines_list' %}">Машины</a>
+<p style="color:#ff0000">End template machines.html</p>
+{% endblock content %}
