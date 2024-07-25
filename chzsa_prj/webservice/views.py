@@ -135,6 +135,12 @@ def xl_test(request):
     if 'machine_model' in prp_list:
         print("FIND PROP", Machine.machine_model, Machine.machine_model.__dict__)
     message = str(Machine.machine_model) + "\n" + str(Machine.machine_model.__dict__) + str(hasattr(Machine, 'machine_number'))
+    # Проблема как получить отдельные записи заданной модели (?потомки), итерироваться по её объектам.
+    message = str(Machine.id) + str(id.__doc__)
+    message = str(Machine.objects.all())
+    message = list(Machine.objects.all())
+    message = list(list(Machine.objects.all())[0].__dict__.keys())  # как применить найденное свойство к объекту Machine?
+
     return render(request, 'xl_test.html', context={"display": message})
 
 
