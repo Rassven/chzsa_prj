@@ -10,18 +10,18 @@
 
 {% block content %}
 
-{% if user.is_active %}
+
     {% if machinemodel %}
         <h3>Описание модели машины №{{ machinemodel.id }}</h3><br>
         <table>
             <tr>
                 <th>Id</th>
-                <th>Model name</th>
-                <th>Description</th>
-                <th>Creation date</th>
-                <th>Last edit date</th>
-                <th>Work history</th>
-                <th>Is active</th>
+                <th>Модель</th>
+                <th>Описание</th>
+                <th>Дата выпуска</th>
+                <th>Последнее изменение</th>
+                <th>История работы</th>
+                <th>В работе</th>
             </tr>
             <tr>
                 <td>{{ machinemodel.id }}</td>
@@ -36,9 +36,7 @@
     {% else %}
         <h2>Empty.</h2>
     {% endif %}
-{% else %}
-Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
-{% endif %}
+
 
 <a href="{% url 'machines_list' %}">Машины</a>
 <p style="color:#ff0000">End template machinemodel.html</p>

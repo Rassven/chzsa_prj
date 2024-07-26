@@ -4,5 +4,9 @@
 {% block title %}Test page (вкладка в браузере){% endblock title %}
 
 {% block content %}
-{{ display }}
+<div class="xl_test">
+{% for item in display %}
+<p>{{ item }}</p><br>
+{% endfor %}
+    </div>
 {% endblock content %}

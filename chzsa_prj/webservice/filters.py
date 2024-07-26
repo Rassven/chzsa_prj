@@ -10,7 +10,9 @@ class MachineFilter(FilterSet):
 
     class Meta:
         model = Machine
-        fields = {'machine_number': ['exact'], 'machine_model': ['exact'], }
+        # fields = {'machine_number': ['exact'], 'machine_model': ['exact'], }
+        # fields = '__all__'
+        fields = {'id': ['exact'], }
 
 
 class MaintenancesFilter(FilterSet):

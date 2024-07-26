@@ -8,14 +8,47 @@ from django.views.decorators.csrf import csrf_protect
 from .models import *
 from .filters import MachineFilter, MaintenancesFilter
 from .forms import MachineForm
-from .utils.xlsx_report_creator import *
+from .utils.xlsx_report_creator import create_excel_report
+
+
+def download_xlsx(request):
+    # сборщик опробовался на простом классе, а не на модели django и да, уже подсвечивает что не итерабельна.. И структура явно другая...
+    return create_excel_report("project_report.xlsx")
+
+
+def xl_test(request):
+    display = []
+    # print(Machine.mro())
+    # prp_list = list(Machine.__dict__.keys())
+    # print(prp_list)
+    # if 'machine_model' in prp_list:
+    #     print("FIND PROP", Machine.machine_model, Machine.machine_model.__dict__)
+    # display.append({'Machine.machine_model': Machine.machine_model})
+    # display.append({'Machine.machine_model.__dict__': Machine.machine_model.__dict__})
+    display.append({'getattr(Machine, "machine_model")': getattr(Machine, "machine_model")})
+    display.append({'hasattr(Machine, "machine_number")': hasattr(Machine, "machine_number")})
+    display.append({'Machine.objects.all()': Machine.objects.all()})
+    display.append({'list(Machine.objects.all())': list(Machine.objects.all())})
+    # display.append({'list(Machine.objects.all())[0].__dict__': list(Machine.objects.all())[0].__dict__})
+    # display.append({'list(Machine.objects.all())[0].__dict__.keys()': list(Machine.objects.all())[0].__dict__.keys()})
+    display.append({'list(list(Machine.objects.all())[0].__dict__.keys())': list(list(Machine.objects.all())[0].__dict__.keys())})
+    display.append({'getattr(list(Machine.objects.all())[0], "machine_model")': getattr(list(Machine.objects.all())[0], "machine_model")})
+    one = list(Machine.objects.all())[0]
+    # display.append({'one': one.__dict__})
+    display.append({'one.machine_model': one.machine_model})
+    display.append({'getattr(list(Machine.objects.all())[0], "machine_model")': type(getattr(list(Machine.objects.all())[0], "machine_model"))})
+    co_model = getattr(list(Machine.objects.all())[0], "machine_model")
+    display.append({'co_model.__dict__': co_model.__dict__})
+    display.append({'co_model.__dict__.keys()': co_model.__dict__.keys()})
+
+    return render(request, 'xl_test.html', context={"display": display})
 
 
 class MachinesList(ListView):  # PermissionRequiredMixin
     # permission_required = ('webservice.view_machine',)
     model = Machine
     queryset = Machine.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
-    ordering = '-creation_date'
+    # ordering = '-creation_date'
     template_name = 'machines.html'
     context_object_name = 'machines'
 
@@ -23,6 +56,11 @@ class MachinesList(ListView):  # PermissionRequiredMixin
         queryset = super().get_queryset()
         self.filterset = MachineFilter(self.request.GET, queryset)
         return self.filterset.qs
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['filterset'] = self.filterset
+    #     return context
 
 
 class MachineView(DetailView):  # PermissionRequiredMixin
@@ -44,7 +82,7 @@ class MachineModels(ListView):  # PermissionRequiredMixin
     # permission_required = ('webservice.view_machinemodelslist',)
     model = MachineModelsList
     queryset = MachineModelsList.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
-    ordering = '-creation_date'
+    # ordering = '-creation_date'
     template_name = 'machinemodels.html'
     context_object_name = 'machinemodels'
 
@@ -62,7 +100,7 @@ class EngineModels(ListView):  # PermissionRequiredMixin
     # permission_required = ('webservice.view_enginemodelslist',)
     model = EngineModelsList
     queryset = EngineModelsList.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
-    ordering = '-creation_date'
+    # ordering = '-creation_date'
     template_name = 'enginemodels.html'
     context_object_name = 'enginemodels'
 
@@ -78,7 +116,7 @@ class TransmissionModels(ListView):  # PermissionRequiredMixin
     # permission_required = ('webservice.view_enginemodelslist',)
     model = TransmissionModelsList
     queryset = TransmissionModelsList.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
-    ordering = '-creation_date'
+    # ordering = '-creation_date'
     template_name = 'transmissionmodels.html'
     context_object_name = 'transmissionmodels'
 
@@ -94,7 +132,7 @@ class DriveBridgeModels(ListView):  # PermissionRequiredMixin
     # permission_required = ('webservice.view_enginemodelslist',)
     model = DriveBridgeModelsList
     queryset = DriveBridgeModelsList.objects.all().filter(is_active=True,)  # .order_by('-creation_date')
-    ordering = '-creation_date'
+    # ordering = '-creation_date'
     template_name = 'drivebridgemodels.html'
     context_object_name = 'drivebridgemodels'
 
@@ -128,22 +166,6 @@ class MaintenanceView(DetailView):  # PermissionRequiredMixin
     context_object_name = 'maintenance'
 
 
-def xl_test(request):
-    # print(Machine.mro())
-    prp_list = list(Machine.__dict__.keys())
-    print(prp_list)
-    if 'machine_model' in prp_list:
-        print("FIND PROP", Machine.machine_model, Machine.machine_model.__dict__)
-    message = str(Machine.machine_model) + "\n" + str(Machine.machine_model.__dict__) + str(hasattr(Machine, 'machine_number'))
-    # Проблема как получить отдельные записи заданной модели (?потомки), итерироваться по её объектам.
-    message = str(Machine.id) + str(id.__doc__)
-    message = str(Machine.objects.all())
-    message = list(Machine.objects.all())
-    message = list(list(Machine.objects.all())[0].__dict__.keys())  # как применить найденное свойство к объекту Machine?
-
-    return render(request, 'xl_test.html', context={"display": message})
-
-
 def welcome(request):
     return render(request, 'welcome.html')
 
@@ -163,8 +185,4 @@ class ToDo(TemplateView):
 class Comments(TemplateView):
     template_name = 'comments.html'
 
-
-def download_xlsx(request):
-    # сборщик опробовался на простом классе, а не на модели django и да, уже подсвечивает что не итерабельна.. И структура явно другая...
-    return create_excel_report()
 

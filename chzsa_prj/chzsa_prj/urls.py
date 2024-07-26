@@ -20,7 +20,7 @@ from webservice import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', views.welcome, name="welcome"),
+    path('', views.xl_test, name="xl_test"),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),

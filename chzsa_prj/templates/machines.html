@@ -4,6 +4,7 @@
 {% comment 'Comment' %}{% load custom_filters %}
 {% load custom_tags %}{% endcomment %}
 
+
 {% block title %}
     Machines (вкладка в браузере)
 {% endblock title %}
@@ -11,37 +12,37 @@
 {% block content %}
 <p style="color:#ff0000">Begin template machines.html</p>
 <h3>Описание всех машин (найдено: {{ machines|length }})</h3><br>
-<a href="{% static 'test_output.xlsx' %}" style="color: #bbbbbb">Скачать пробный файл Excel</a>
-{% comment "filter" %}{% endcomment %}
+{% comment 'Comment' %}<a href="{% static 'test_output.xlsx' %}" style="color: #bbbbbb">Скачать пробный файл Excel</a>{% endcomment %}
+{% comment "filter" %}{{ filterset.form.as_p }}{% endcomment %}
     <form action="" method="get">
         {% csrf_token %}
-        {{ filterset.form.as_p }}
+        {{ form.as_p }}
         <input type="submit" value="Найти" />
     </form>
 
 <br>
-{% if user.is_active %}
+{% comment 'Comment' %}{% if user %}{% endcomment %}
     {% if machines %}
         <table>
             <tr>
                 <th>Id</th>
-                <th>Serial number</th>
-                <th>Model</th>
-                <th>Creation date</th>
-                <th>Engine</th>
-                <th>Transmission</th>
-                <th>Drive bridge</th>
-                <th>Controlled bridge</th>
-                <th>Package contents</th>
-                <th>Delivery agreement</th>
-                <th>Shipment date</th>
-                <th>End user</th>
-                <th>End user address</th>
-                <th>Client</th>
-                <th>Service company</th>
+                <th>Заводской номер</th>
+                <th>Модель</th>
+                <th>Дата выпуска</th>
+                <th>Двигатель</th>
+                <th>Трансмиссия</th>
+                <th>Ведущий мост</th>
+                <th>Управляемый мост</th>
+                <th>Комплектация</th>
+                <th>№ договора поставки</th>
+                <th>Дата отгрузки</th>
+                <th>Грузо-получатель</th>
+                <th>Адрес поставки</th>
+                <th>Клиент</th>
+                <th>Сервисная компания</th>
                 <th>Work history</th>
-                <th>Is active</th>
-                <th>Actions</th>
+                <th>В работе</th>
+                <tmp>Действия</tmp>
             </tr>
             {% for machine in machines %}
             <tr>
@@ -51,7 +52,7 @@
                 <td>{{ machine.creation_date|date:'Y-m-d / H:i:s' }}</td>
                 <td><a href="enginemodel/{{ machine.engine_model.id }}" title="Показать данные конкретной модели">{{ machine.engine_model.name }}</a></td>
                 <td><a href="transmissionmodel/{{ machine.transmission_model.id }}" title="Показать данные конкретной модели">{{ machine.transmission_model.name }}</a></td>
-                <td title="DriveBridgeModel/{{ machine.drive_bridge_number }}">{{ machine.drive_bridge_model.name }}</td>
+                <td><a href="drivebridgemodel/{{ machine.drive_bridge_model.id }}" title="Показать данные конкретной модели">{{ machine.drive_bridge_model.name }}</a></td>
                 <td title="ControlledBridgeModel/{{ machine.controlled_bridge_number }}">{{ machine.controlled_bridge_model.name }}</td>
                 <td>{{ machine.package_contents }}</td>
                 <td>{{ machine.info_about_delivery_agreement }}</td>
@@ -62,7 +63,7 @@
                 <td title="ServiceCompanies/{{ machine.service_company.id }}">{{ machine.service_company.name }}</td>
                 <td><iframe src="{% static 'work_history.py' %}" class="frame1">Work_history</iframe></td>
                 <td>{{ machine.is_active }}</td>
-                <td><a style="color: #00ff00" href="machine/{{ machine.id }}">View</a></td>
+                <tmp><a style="color: #00ff00" href="machine/{{ machine.id }}">Просмотр</a></tmp>
             </tr>
             {% endfor %}
             <tr>
@@ -83,15 +84,15 @@
                 <td>All</td>
                 <td>-</td>
                 <td>-</td>
-                <td>-</td>
+                <tmp>-</tmp>
             </tr>
         </table>
     {% else %}
         <h2>Пока нет машин.</h2>
     {% endif %}
-{% else %}
+{% comment 'Comment' %}{% else %}
 Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
-{% endif %}
+{% endif %}{% endcomment %}
 
 {% comment 'Comment' %}
 {# страничительство #}

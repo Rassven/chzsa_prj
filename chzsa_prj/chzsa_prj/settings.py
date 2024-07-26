@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'webservice',
 
-    # 'django_filters',
+    'django_filters',
     # 'allauth',
     # 'allauth.account',
 ]

@@ -10,17 +10,15 @@
 
 {% block content %}
 <h3>Описание моделей ведущих мостов (найдено: {{ drivebridgemodels|length }}).</h3><br>
-
-{% if user.is_active %}
     {% if drivebridgemodels %}
-        <table style="background-color: #cccccc; color: #000000;">
-            <tr style="text-align: center; background-color: #ffffff; border: 1px solid black;">
+        <table>
+            <tr>
                 <th>Id</th>
-                <th>Model name</th>
-                <th>Description</th>
-                <th>Creation date</th>
-                <th>Last edit date</th>
-                <th>Is active</th>
+                <th>Модель</th>
+                <th>Описание</th>
+                <th>Дата выпуска</th>
+                <th>Последнее изменение</th>
+                <th>В работе</th>
             </tr>
             {% for model in drivebridgemodels %}
             <tr style="text-align: center; border: 1px solid #ccc;">
@@ -36,9 +34,7 @@
     {% else %}
         <h2>Модели не заданы.</h2>
     {% endif %}
-{% else %}
-Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
-{% endif %}
+
 
 {% comment 'Comment' %}
 {# страничительство #}
