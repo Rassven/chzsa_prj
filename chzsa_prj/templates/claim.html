@@ -33,12 +33,12 @@
             <td>{{ claim.machine.machine_number }}</td>
             <td>{{ claim.worked_hours_time }}</td>
             <td>{{ claim.failure_date|date:'Y-m-d / H:i:s' }}</td>
-            <td>{{ claim.failure_node }}</td>
+            <td>{{ claim.failure_node.name }}</td>
             <td>{{ claim.failure_description }}</td>
             <td>{{ claim.recovery_date|date:'Y-m-d / H:i:s' }}</td>
-            <td>{{ claim.recovery_method }}</td>
+            <td>{{ claim.recovery_method.name }}</td>
             <td>{{ claim.spare_parts }}</td>
-            <td>{{ claim.service_company }}</td>
+            <td>{{ claim.service_company.name }}</td>
             <tmp>Actions</tmp>
         </tr>
         </tbody>

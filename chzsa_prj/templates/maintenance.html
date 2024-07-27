@@ -26,9 +26,9 @@
         </tr>
         <tr>
                 <td>{{ maintenance.id }}</td>
-                <td>{{ maintenance.maintenance_type }}</td>
+                <td>{{ maintenance.maintenance_type.name }}</td>
                 <td>{{ maintenance.maintenance_date }}</td>
-                <td>{{ maintenance.machine.machine_model }}</td>
+                <td>{{ maintenance.machine.machine_model.name }}</td>
                 <td>{{ maintenance.worked_hours_time }}</td>
                 <td>{{ maintenance.maintenance_organization.name }}</td>
                 <td>{{ maintenance.service_company.name }}</td>
