@@ -18,3 +18,9 @@ class MaintenanceForm(forms.ModelForm):
         # Maintenance.machine = forms.ModelChoiceField(label='Machine', queryset=Machine.objects.all())
         fields = '__all__'  # на время тестирования
 
+
+class ClaimForm(forms.ModelForm):
+    class Meta:
+        model = ClaimInfo
+        fields = '__all__'  # на время тестирования
+

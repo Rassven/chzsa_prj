@@ -1,0 +1,99 @@
+{% extends 'base/default.html' %}
+{% load static %}
+
+{% comment 'Comment' %}{% load custom_filters %}
+{% load custom_tags %}{% endcomment %}
+
+{% block title %}
+    Claims (вкладка в браузере)
+{% endblock title %}
+
+{% block content %}
+<p style="color:#ff0000">Begin template claims.html</p>
+{% comment "filter" %}{% endcomment %}
+    <form action="" method="get">
+        {% csrf_token %}
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+
+
+    {% if claims %}
+        <h3>Описание ремонтов (найдено: {{ claims|length }})</h3><br>
+        <table>
+            <tr>
+                <th>Id</th>
+                <tmp>Дата создания протокола</tmp>
+                <tmp>Дата последнего изменения</tmp>
+                <th>Машина (номер)</th>
+                <th>Наработка (мото-часы)</th>
+                <th>Дата отказа</th>
+                <th>Узел отказа</th>
+                <th>Описание поломки</th>
+                <th>Дата восстановления</th>
+                <th>Способ восстановления</th>
+                <th>Список запасных частей</th>
+                <th>Сервисная компания</th>
+                <tmp>Действия</tmp>
+            </tr>
+            {% for claim in claims %}
+                <tr>
+                    <td><a href="claim/{{ claim.id }}">{{ claim.id }}</a></td>
+                    <tmp>{{ claim.created_date|date:'Y-m-d / H:i:s' }}</tmp>
+                    <tmp>{{ claim.last_edit_date|date:'Y-m-d / H:i:s' }}</tmp>
+                    <td>{{ claim.machine.machine_number }}</td>
+                    <td>{{ claim.worked_hours_time }}</td>
+                    <td>{{ claim.failure_date|date:'Y-m-d / H:i:s' }}</td>
+                    <td>{{ claim.failure_node }}</td>
+                    <td>{{ claim.failure_description }}</td>
+                    <td>{{ claim.recovery_date|date:'Y-m-d / H:i:s' }}</td>
+                    <td>{{ claim.recovery_method }}</td>
+                    <td>{{ claim.spare_parts }}</td>
+                    <td>{{ claim.service_company }}</td>
+                    <tmp>Actions</tmp>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+            </tr>
+        </table>
+    {% else %}
+        <h2>Пока нет записей.</h2>
+    {% endif %}
+
+
+{% comment 'Comment' %}
+{# страничительство #}
+{% if paginator.num_pages > 1 %}
+<h2 style="text-align: center">
+    pages<
+{% if page_obj.has_previous %}
+    <a href="?{% url_replace page=1 %}">1</a>
+    {% if page_obj.previous_page_number != 1 %}
+        ...<a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+    {% endif %}
+{% endif %}
+{{ page_obj.number }}
+{% if page_obj.has_next %}
+    <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+    {% if paginator.num_pages != page_obj.next_page_number %}
+        ...<a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+    {% endif %}
+{% endif %}
+></h2>
+{% else %}
+Без страничительства
+{% endif %}
+{% endcomment %}
+
+<p style="color:#ff0000">End template claims.html</p>
+{% endblock content %}

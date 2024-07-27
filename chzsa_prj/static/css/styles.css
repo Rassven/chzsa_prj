@@ -53,7 +53,7 @@ border-radius: 4px;
 border-color: #0000ff;
 background-color: var(--base-color-1);
 display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 justify-items: center; align-items: center; justify-content: center; align-content: center;
 gap: 3px;
 }

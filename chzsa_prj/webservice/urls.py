@@ -34,8 +34,8 @@ urlpatterns = [
    path('maintenance/<int:pk>', MaintenanceView.as_view(), name='maintenance'),
    # path('maintenance/<int:pk>/edit/', MaintenanceEdit.as_view(), name='maintenance_edit'),
 
-   # path('claims', ClaimsList.as_view(), name='claims_list'),
-   # path('claim/<int:pk>', ClaimView.as_view(), name='claim'),
+   path('claims', ClaimList.as_view(), name='claims_list'),
+   path('claim/<int:pk>', ClaimView.as_view(), name='claim'),
    # path('claim/<int:pk>/edit/', ClaimEdit.as_view(), name='claim_edit'),
 
    path('report/', download_xlsx, name='create_report'),

@@ -7,7 +7,7 @@ from pathlib import Path
 
 # my app:
 from .models import *
-from .filters import MachineFilter, MaintenancesFilter
+from .filters import MachineFilter, MaintenancesFilter, ClaimsFilter
 from .forms import MachineForm
 from .utils.xlsx_report_creator import create_excel_report
 
@@ -158,7 +158,7 @@ class DriveBridgeModelView(DetailView):  # PermissionRequiredMixin
 
 
 class MaintenanceList(ListView):  # PermissionRequiredMixin
-    # permission_required = ('webservice.view_enginemodelslist',)
+    # permission_required = ('webservice.view_maintenancelist',)
     model = MaintenanceInfo
     # queryset = MaintenanceInfo.objects.all().filter(machine=1)  # .order_by('-creation_date')
     # ordering = '-creation_date'
@@ -178,10 +178,37 @@ class MaintenanceList(ListView):  # PermissionRequiredMixin
 
 
 class MaintenanceView(DetailView):  # PermissionRequiredMixin
-    # permission_required = ('webservice.view_machine',)
+    # permission_required = ('webservice.view_maintenance',)
     model = MaintenanceInfo
     template_name = 'maintenance.html'
     context_object_name = 'maintenance'
+
+
+class ClaimList(ListView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_claimslist',)
+    model = ClaimInfo
+    # queryset = ClaimInfo.objects.all().filter(machine=1)  # .order_by('-creation_date')
+    # ordering = '-creation_date'
+    ordering = 'failure_date'
+    template_name = 'claims.html'
+    context_object_name = 'claims'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = ClaimsFilter(self.request.GET, queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context
+
+
+class ClaimView(DetailView):  # PermissionRequiredMixin
+    # permission_required = ('webservice.view_machine',)
+    model = ClaimInfo
+    template_name = 'claim.html'
+    context_object_name = 'claim'
 
 
 def welcome(request):

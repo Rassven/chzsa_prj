@@ -3,8 +3,6 @@ from django.forms import DateTimeInput
 from .models import *  # Machine, MaintenanceInfo, ClaimInfo  # *
 from django.utils.translation import gettext_lazy as _
 
-CHOICES = [["machine_number", "По номеру машины"], ["creation_date", "По дате создания"], ]
-
 
 class MachineFilter(FilterSet):
     CHOICES = [["machine_number", "По номеру машины"],
@@ -59,3 +57,23 @@ class MaintenancesFilter(FilterSet):
         #  range - Проверка дальности (включительно).
         #  date - Для полей даты и времени преобразует значение в дату. Позволяет связывать дополнительные поиски полей.
         #           Принимает значение даты
+
+
+class ClaimsFilter(FilterSet):
+    CHOICES = [["machine", "По номеру машины"],
+               ["failure_date", "По дате поломки"],
+               ['worked_hours_time', 'По наработанным часам'],
+               ['failure_node', 'По узлу поломки'],
+               ['recovery_method', 'По способу ремонта'],
+               ]
+    # CHOICES = list(ClaimInfo.objects.all().__dict__.keys())
+    # type = ModelChoiceFilter(queryset=RecoveryMethodsList.objects.all(), label='name', empty_label='любая', )
+    failure_date = DateTimeFilter(field_name=_('failure_date'), lookup_expr='gte',
+                                  widget=DateTimeInput(format='%Y-%m-%d', attrs={'type': 'datetime-local'}, ), )
+    # creation_date = DateTimeFilter(field_name=_('creation_date'), lookup_expr='gte',
+    #                                widget=DateTimeInput(format='%Y-%m-%d', attrs={'type': 'datetime-local'}, ), )
+    ordering = OrderingFilter(choices=CHOICES, required=True, empty_label=None, )
+
+    class Meta:
+        model = ClaimInfo
+        fields = {'failure_node': ['exact'], 'machine': ['exact'], }  # 'creation_time': ['gte'], }
