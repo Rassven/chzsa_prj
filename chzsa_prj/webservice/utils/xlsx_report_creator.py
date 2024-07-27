@@ -1,3 +1,4 @@
+import datetime
 import openpyxl  # https://openpyxl.readthedocs.io/en/stable
 from ..models import *
 
@@ -14,13 +15,22 @@ def write_table(work_model, sheet_model, header_dict, header_row_position):
     # Запись данных таблицы.
     records_counter = 1
     for cls_obj in work_model:
+        # print(cls_obj)
         row_counter = records_counter + header_row_position  # Стартовая строка заполнения таблицы.
         column_counter = 0  # "A"!
         for value in header_dict.values():
             cell_row = str(row_counter)
             cell_column = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[column_counter]
+            # print('value=', value)
             if hasattr(cls_obj, str(value)):
-                cls_obj_value = getattr(cls_obj, value)
+                cls_obj_attr = getattr(cls_obj, value)
+                if isinstance(cls_obj_attr, (str, int, type(None))):  # float, set, dict, datetime.datetime,
+                    # print(f'Value ({value}) = {str(cls_obj_attr)} ({type(cls_obj_attr)})')
+                    cls_obj_value = cls_obj_attr
+                elif isinstance(cls_obj_attr, (datetime.datetime, )):
+                    cls_obj_value = str(cls_obj_attr)
+                else:
+                    cls_obj_value = cls_obj_attr.name
                 sheet_model[cell_column + cell_row].value = cls_obj_value
                 if sheet_model.column_dimensions[cell_column].width < len(str(cls_obj_value)):
                     sheet_model.column_dimensions[cell_column].width = len(str(cls_obj_value))
@@ -58,7 +68,7 @@ def create_excel_report(file_name="project_report.xlsx"):
         "Комплектация (доп. опции)": "package_contents",
         "Сервисная компания": "service_company"}
     header_row_position = 3  # Номер строки с заголовками. Внимательно! Строки с 1, а колонки с 0 ("A")!
-    write_table(Machine, sheet_1, machine_header_dict, header_row_position)
+    write_table(list(Machine.objects.all()), sheet_1, machine_header_dict, header_row_position)
     # sheet_1.auto_filter.ref = "B3:V3"
 
     # Maintenance sheet create:
@@ -74,7 +84,7 @@ def create_excel_report(file_name="project_report.xlsx"):
         "Организация, проводившая ТО": "maintenance_organization",
         "*Сервисная компания": "service_company"}
     header_row_position = 1  # Номер строки с заголовками. Внимательно! Строки с 1, а колонки с 0 ("A")!
-    write_table(MaintenanceInfo, sheet_2, maintenance_header_dict, header_row_position)
+    write_table(list(MaintenanceInfo.objects.all()), sheet_2, maintenance_header_dict, header_row_position)
     sheet_2.auto_filter.ref = "B1:I1"
 
     # ClaimInfo sheet create:
@@ -92,7 +102,7 @@ def create_excel_report(file_name="project_report.xlsx"):
         "Время простоя техники": "",
         "*Сервисная компания": "service_company"}
     header_row_position = 2  # Номер строки с заголовками. Внимательно! Строки с 1, а колонки с 0 ("A")!
-    write_table(ClaimInfo, sheet_3, claiminfo_header_dict, header_row_position)
+    write_table(list(ClaimInfo.objects.all()), sheet_3, claiminfo_header_dict, header_row_position)
 
     book.save(file_name)
     book.close()

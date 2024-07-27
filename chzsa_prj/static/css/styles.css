@@ -140,7 +140,6 @@ display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr;
 justify-items: center; align-items: center;
 }
 
-
 .todo-window {padding: 5px 20px 20px 20px; height: 95%; width: 97%; background-color: #ccccdd; overflow-y: scroll;}
 
 temp {фрейм чувствителен к расширению файла!}
@@ -201,6 +200,6 @@ background-color: var(--base-color-1);
 .new_model {height: 16px;}
 .new_model:hover {position: absolute; left: 5%; top: 10%; height: 70%; width: 70%; z-index: 999999; border:3px solid; border-radius:4px; border-color: #0000ff;}
 
-.xl_test {width: 100%; height: 100%; color: #00ff00; background-color: #333333;
+.xl_test {width: 100%; height: 100%; color: #00bb00; background-color: #333333;
 overflow-y: scroll;
 }

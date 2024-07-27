@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, TemplateView, CreateView,
 from django.contrib.auth.mixins import PermissionRequiredMixin  # , LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_protect
+from pathlib import Path
 
 # my app:
 from .models import *
@@ -12,8 +13,20 @@ from .utils.xlsx_report_creator import create_excel_report
 
 
 def download_xlsx(request):
-    # сборщик опробовался на простом классе, а не на модели django и да, уже подсвечивает что не итерабельна.. И структура явно другая...
-    return create_excel_report("project_report.xlsx")
+    prj_path = str(Path(__file__).resolve().parent.parent)
+    rel_path = "\\static\\"  # временно через static "\\output_data\\"
+    file_name = "project_report.xlsx"
+    full_path = str(prj_path + rel_path + file_name)
+    create_excel_report(full_path)
+    return render(request, 'xl_test.html',
+                  context={"display": [f'Снимок сохранен в {file_name}',
+                                       'Пути:',
+                                       f'Корневая папка проекта: {prj_path}',
+                                       f'Путь внутри проекта: {rel_path}',
+                                       f'Полный путь файла: {full_path}',
+                                       ],
+                           "file_path": rel_path + file_name
+                           })
 
 
 def xl_test(request):
@@ -33,10 +46,10 @@ def xl_test(request):
     # display.append({'list(Machine.objects.all())[0].__dict__.keys()': list(Machine.objects.all())[0].__dict__.keys()})
     display.append({'list(list(Machine.objects.all())[0].__dict__.keys())': list(list(Machine.objects.all())[0].__dict__.keys())})
     display.append({'getattr(list(Machine.objects.all())[0], "machine_model")': getattr(list(Machine.objects.all())[0], "machine_model")})
-    one = list(Machine.objects.all())[0]
-    # display.append({'one': one.__dict__})
-    display.append({'one.machine_model': one.machine_model})
     display.append({'getattr(list(Machine.objects.all())[0], "machine_model")': type(getattr(list(Machine.objects.all())[0], "machine_model"))})
+    # one = list(Machine.objects.all())[0]
+    # display.append({'one': one.__dict__})
+    # display.append({'one.machine_model': one.machine_model})
     co_model = getattr(list(Machine.objects.all())[0], "machine_model")
     display.append({'co_model.__dict__': co_model.__dict__})
     display.append({'co_model.__dict__.keys()': co_model.__dict__.keys()})
@@ -57,10 +70,10 @@ class MachinesList(ListView):  # PermissionRequiredMixin
         self.filterset = MachineFilter(self.request.GET, queryset)
         return self.filterset.qs
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['filterset'] = self.filterset
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context
 
 
 class MachineView(DetailView):  # PermissionRequiredMixin
@@ -157,6 +170,11 @@ class MaintenanceList(ListView):  # PermissionRequiredMixin
         queryset = super().get_queryset()
         self.filterset = MaintenancesFilter(self.request.GET, queryset)
         return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context
 
 
 class MaintenanceView(DetailView):  # PermissionRequiredMixin

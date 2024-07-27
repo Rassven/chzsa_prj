@@ -9,7 +9,7 @@
 {% endblock title %}
 
 {% block content %}
-{% if user.is_active %}
+
     {% if transmissionmodels %}
         <h3>Описание моделей трансмиссий (найдено: {{ transmissionmodels|length }})</h3><br>
         <table style="background-color: #cccccc; color: #000000;">
@@ -35,9 +35,6 @@
     {% else %}
         <h2>Модели не заданы.</h2>
     {% endif %}
-{% else %}
-Страница доступна только авторизованным пользователям (хотя, в view вроде прописан permission (проверить!))
-{% endif %}
 
 {% comment 'Comment' %}
 {# страничительство #}

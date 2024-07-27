@@ -11,12 +11,13 @@
 
 {% block content %}
 <p style="color:#ff0000">Begin template machines.html</p>
-<h3>Описание всех машин (найдено: {{ machines|length }})</h3><br>
-{% comment 'Comment' %}<a href="{% static 'test_output.xlsx' %}" style="color: #bbbbbb">Скачать пробный файл Excel</a>{% endcomment %}
-{% comment "filter" %}{{ filterset.form.as_p }}{% endcomment %}
+<h3>Описание всех машин (найдено: {{ machines|length }})</h3>
+{% comment 'Comment' %}{% endcomment %}
+<p><a href="{% static 'project_report.xlsx' %}" style="color: #ff00ff">Скачать сводные таблицы (xlsx)</a></p>
+<br>
     <form action="" method="get">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ filterset.form.as_p }}
         <input type="submit" value="Найти" />
     </form>
 

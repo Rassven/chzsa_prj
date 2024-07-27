@@ -1,4 +1,4 @@
-from django_filters import FilterSet, DateTimeFilter, FilterSet, ModelChoiceFilter
+from django_filters import FilterSet, DateTimeFilter, ModelChoiceFilter
 from django.forms import DateTimeInput
 from .models import *  # Machine, MaintenanceInfo, ClaimInfo  # *
 from django.utils.translation import gettext_lazy as _
@@ -12,17 +12,17 @@ class MachineFilter(FilterSet):
         model = Machine
         # fields = {'machine_number': ['exact'], 'machine_model': ['exact'], }
         # fields = '__all__'
-        fields = {'id': ['exact'], }
+        fields = {'machine_number': ['exact'], 'machine_model': ['exact'], }
 
 
 class MaintenancesFilter(FilterSet):
     # type = ModelChoiceFilter(queryset=MaintenanceTypesList.objects.all(), label='name', empty_label='любая', )
-    create_time = DateTimeFilter(field_name='edit_time', lookup_expr='gte',
-                                 widget=DateTimeInput(format='%Y-%m-%d', attrs={'type': 'datetime-local'}, ), )
+    creation_date = DateTimeFilter(field_name=_('creation_date'), lookup_expr='gte',
+                                   widget=DateTimeInput(format='%Y-%m-%d', attrs={'type': 'datetime-local'}, ), )
 
     class Meta:
         model = MaintenanceInfo
-        fields = {'maintenance_type': ['exact'], 'maintenance_date': ['gte'], }  # 'creation_time': ['gte'], }
+        fields = {'maintenance_type': ['exact'], 'machine': ['exact'], }  # 'creation_time': ['gte'], }
         #  exact - полное соответствие
         #  iexact - Точное совпадение без учета регистра.
         #  contains - Тест на содержание с учетом регистра.

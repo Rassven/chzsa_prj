@@ -1,8 +1,9 @@
 {% load static %}
 
 <navigator>
+
     <div>
-        <a class="admin-link" href="/admin" target="_blank" title="Переход в админку (на время отладки)">Admin</a>
+        <a class="welcome-link" style="color:#0000ff" href="{% url 'welcome' %}">Начальная страница</a>
     </div>
     <div>
         <a class="machines_list" href="{% url 'machines_list'  %}" title="Список машин">Машины</a>
@@ -11,15 +12,16 @@
         <a class="maintenances_list" href="{% url 'maintenances_list'  %}" title="Список ТО">Проведенные ТО</a>
     </div>
     <div>
-        <a class="welcome-link" style="color:#0000ff" href="{% url 'welcome' %}">Welcome</a>
+        <a style="color:#009900" href="/webservice/report" title="Заработало!">Сохранить отчет (xlsx)</a>
     </div>
     {% comment 'Comment' %}<div>
         <a style="color:#0000ff" href="/webservice/main">Main page</a>
     </div>{% endcomment %}
     <div>
-        <a style="color:#cc99cc" href="/webservice/report" title="Модели Django не итерируются...">Save Excel (unwork)</a>
+        <a href="/webservice/rules/">Как пользоваться сервисом</a>
     </div>
-     <div>
-        <a style="color:#ff0000" href="/webservice/xl_test">XL_test</a>
+    <div>
+        <a class="admin-link" href="/admin" target="_blank" title="Переход в админку (на время отладки)">Admin</a>
     </div>
+
 </navigator>

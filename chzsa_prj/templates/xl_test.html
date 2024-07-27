@@ -8,5 +8,9 @@
 {% for item in display %}
 <p>{{ item }}</p><br>
 {% endfor %}
+<a style="color:#00ff00" href="{{ file_path }}" download>Скачать xlsx-файл</a>
     </div>
+
+
+{% comment 'Comment %}<div style="position: relative; bottom: 10%;"><a style="color:#00ff00" href="{{ file_path }}" download>Скачать xlsx-файл</a></div>{% endcomment %}
 {% endblock content %}
