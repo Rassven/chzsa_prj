@@ -9,6 +9,8 @@ class MachineForm(forms.ModelForm):
         model = Machine
         fields = '__all__'
 
+    field_order = ['creation_date', 'machine_number']
+
 
 class MaintenanceForm(forms.ModelForm):
     class Meta:

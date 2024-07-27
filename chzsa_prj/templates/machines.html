@@ -15,6 +15,7 @@
 {% comment 'Comment' %}{% endcomment %}
 <p><a href="{% static 'project_report.xlsx' %}" style="color: #ff00ff">Скачать сводные таблицы (xlsx)</a></p>
 <br>
+
     <form action="" method="get">
         {% csrf_token %}
         {{ filterset.form.as_p }}

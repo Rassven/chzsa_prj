@@ -1,12 +1,26 @@
-from django_filters import FilterSet, DateTimeFilter, ModelChoiceFilter
+from django_filters import FilterSet, DateTimeFilter, ModelChoiceFilter, OrderingFilter
 from django.forms import DateTimeInput
 from .models import *  # Machine, MaintenanceInfo, ClaimInfo  # *
 from django.utils.translation import gettext_lazy as _
 
+CHOICES = [["machine_number", "По номеру машины"], ["creation_date", "По дате создания"], ]
+
 
 class MachineFilter(FilterSet):
+    CHOICES = [["machine_number", "По номеру машины"],
+               ["creation_date", "По дате создания"],
+               ['machine_model', 'По модели машины'],
+               ['engine_model', 'По модели двигателя'],
+               ['transmission_model', 'По модели трансмиссии'],
+               ['drive_bridge_model', 'По модели ведущего моста'],
+               ['controlled_bridge_model', 'По модели управляемого моста'],
+               ['shipment_date', 'По дате продажи'],
+               ['end_user', 'По получателю'],
+               ['service_company', 'По сервисной организации'],
+               ]
     creation_date = DateTimeFilter(field_name=_('creation_date'), lookup_expr='gte',
                                    widget=DateTimeInput(format='%Y-%m-%d', attrs={'type': 'datetime-local'}, ), )
+    ordering = OrderingFilter(choices=CHOICES, required=True, empty_label=None, )
 
     class Meta:
         model = Machine
@@ -16,9 +30,16 @@ class MachineFilter(FilterSet):
 
 
 class MaintenancesFilter(FilterSet):
+    CHOICES = [["machine", "По номеру машины"],
+               ["creation_date", "По дате создания"],
+               ['worked_hours_time', 'По наработанным часам'],
+               ['order_number', 'По номеру заказ-наряда'],
+               ]
+    # CHOICES = list(MaintenanceInfo.objects.all().__dict__.keys())
     # type = ModelChoiceFilter(queryset=MaintenanceTypesList.objects.all(), label='name', empty_label='любая', )
     creation_date = DateTimeFilter(field_name=_('creation_date'), lookup_expr='gte',
                                    widget=DateTimeInput(format='%Y-%m-%d', attrs={'type': 'datetime-local'}, ), )
+    ordering = OrderingFilter(choices=CHOICES, required=True, empty_label=None, )
 
     class Meta:
         model = MaintenanceInfo
