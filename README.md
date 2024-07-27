@@ -4,7 +4,9 @@
 2. В IDE созданная папка открывается как 'Новый проект' с созданием виртуального окружения.
 3. В папке с проектом (chzsa_prj) выполняем установку зависимостей ('pip install -r requirements.txt').
 4. Переходим в рабочую папку (тоже chzsa_prj): 'cd chzsa_prj' и запускаем сервер Django ('python manage.py runserver').
-Созданные пользователи (Логин - Пароль):
-Admin - 1234,
-TestUserName - 88-77-U0
+Созданные пользователи (Логин - Группа - Пароль):
+Admin - - - 1234,
+TestUser0 - users - 88-77-U0
+TestManager0 - managers - 88-77-M0
+TestServ0 - services - 88-77-S0
 "
