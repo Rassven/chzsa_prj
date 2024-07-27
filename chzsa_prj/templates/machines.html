@@ -18,7 +18,7 @@
 
     <form action="" method="get">
         {% csrf_token %}
-        {{ filterset.form.as_p }}
+        {{ filterset.form.as_div }}
         <input type="submit" value="Найти" />
     </form>
 

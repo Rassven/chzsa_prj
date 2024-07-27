@@ -29,8 +29,8 @@ class Machine(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Machine work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Machine status'))
 
-    def __str__(self):
-        return f'Machine: {self.machine_number}'
+    # def __str__(self):
+    #     return f'Machine: {self.machine_number}'
 
     # def get_url(self):
     #     return reverse('machine', args=[str(self.id)])
@@ -46,8 +46,8 @@ class MachineModelsList(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Machine work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Machine model status'))
 
-    def __str__(self):
-        return f'Machine: {self.name}'
+    # def __str__(self):
+    #     return f'Machine: {self.name}'
 
 
 class EngineModelsList(models.Model):
@@ -59,8 +59,8 @@ class EngineModelsList(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Engine work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Engine status'))
 
-    def __str__(self):
-        return f'Engine: {self.name}'
+    # def __str__(self):
+    #     return f'Engine: {self.name}'
 
 
 class TransmissionModelsList(models.Model):
@@ -72,8 +72,8 @@ class TransmissionModelsList(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Transmission work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Transmission status'))
 
-    def __str__(self):
-        return f'Transmission: {self.name}'
+    # def __str__(self):
+    #     return f'Transmission: {self.name}'
 
 
 class DriveBridgeModelsList(models.Model):
@@ -85,8 +85,8 @@ class DriveBridgeModelsList(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Drive bridge work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Drive bridge status'))
 
-    def __str__(self):
-        return f'Drive bridge: {self.name}'
+    # def __str__(self):
+    #     return f'Drive bridge: {self.name}'
 
 
 class ControlledBridgeModelsList(models.Model):
@@ -98,8 +98,8 @@ class ControlledBridgeModelsList(models.Model):
     work_history = models.JSONField(encoder=None, decoder=None, null=True, blank=True, verbose_name=_('Controlled bridge work history'))
     is_active = models.BooleanField(default=True, verbose_name=_('Controlled bridge status'))
 
-    def __str__(self):
-        return f'Controlled bridge: {self.name}'
+    # def __str__(self):
+    #     return f'Controlled bridge: {self.name}'
 
 
 class TheUser(User):
@@ -123,8 +123,8 @@ class TheUser(User):
     #         send_mail(subject, message, from_email, [self.email], **kwargs)
     REQUIRED_FIELDS = ["email", "username", "group_name", "access_code"]
 
-    def __str__(self):
-        return f'<{self.username}>'  # ({self.email})>'
+    # def __str__(self):
+    #     return f'<{self.username}>'  # ({self.email})>'
 
 
 class EndUsersList(models.Model):
@@ -135,8 +135,8 @@ class EndUsersList(models.Model):
     description = models.TextField(null=False, blank=False, verbose_name=_('End user description'))
     is_active = models.BooleanField(default=True, verbose_name=_('End user status'))
 
-    def __str__(self):
-        return f'Enduser: {self.name}'
+    # def __str__(self):
+    #     return f'Enduser: {self.name}'
 
 
 class ClientsList(models.Model):
@@ -147,8 +147,8 @@ class ClientsList(models.Model):
     description = models.TextField(null=False, blank=False, verbose_name=_('Client description'))
     is_active = models.BooleanField(default=True, verbose_name=_('Client status'))
 
-    def __str__(self):
-        return f'Client: {self.name}'
+    # def __str__(self):
+    #     return f'Client: {self.name}'
 
 
 class ServiceCompaniesList(models.Model):  # по заданию одна
@@ -159,8 +159,8 @@ class ServiceCompaniesList(models.Model):  # по заданию одна
     description = models.TextField(null=False, blank=False, verbose_name=_('Service company description'))
     is_active = models.BooleanField(default=True, verbose_name=_('Service company status'))
 
-    def __str__(self):
-        return f'Service company: {self.name}'
+    # def __str__(self):
+    #     return f'Service company: {self.name}'
 
 
 class MaintenanceOrganizationsList(models.Model):
@@ -171,8 +171,8 @@ class MaintenanceOrganizationsList(models.Model):
     description = models.TextField(null=False, blank=False, verbose_name=_('Maintenance organization description'))
     is_active = models.BooleanField(default=True, verbose_name=_('Maintenance organization status'))
 
-    def __str__(self):
-        return f'Maintenance organization: {self.name}'
+    # def __str__(self):
+    #     return f'Maintenance organization: {self.name}'
 
 
 class MaintenanceInfo(models.Model):
@@ -189,8 +189,8 @@ class MaintenanceInfo(models.Model):
     service_company = models.ForeignKey(to='ServiceCompaniesList', null=False, blank=False, on_delete=models.PROTECT, verbose_name=_('Service company name'))
     maintenance_description = models.TextField(null=False, blank=False, verbose_name=_('Maintenance description'))
 
-    def __str__(self):
-        return f'Maintenance: {self.maintenance_date}'
+    # def __str__(self):
+    #     return f'Maintenance: {self.maintenance_date}'
 
     # def get_url(self):
     #     return reverse('maintenance', args=[str(self.id)])
@@ -204,8 +204,8 @@ class MaintenanceTypesList(models.Model):
     name = models.TextField(null=False, blank=False, verbose_name=_('Maintenance type name'))
     description = models.TextField(null=False, blank=False, verbose_name=_('Maintenance type description'))
 
-    def __str__(self):
-        return f'Maintenance type: {self.name}'
+    # def __str__(self):
+    #     return f'Maintenance type: {self.name}'
 
 
 class ClaimInfo(models.Model):
@@ -224,8 +224,8 @@ class ClaimInfo(models.Model):
     machine = models.ForeignKey(to='Machine', null=False, blank=False, on_delete=models.PROTECT, verbose_name=_('Machine'))
     service_company = models.ForeignKey(to='ServiceCompaniesList', null=False, blank=False, on_delete=models.PROTECT, verbose_name=_('Service company name'))
 
-    def __str__(self):
-        return f'Claim: {self.failure_date}'
+    # def __str__(self):
+    #     return f'Claim: {self.failure_date}'
 
     # def get_url(self):
     #     return reverse('claim', args=[str(self.id)])
@@ -242,8 +242,8 @@ class NodesList(models.Model):
     is_active = models.BooleanField(default=True, verbose_name=_('Node status'))
     # См. комплектацию... Данные модели Machine.
 
-    def __str__(self):
-        return f'Node: {self.name}'
+    # def __str__(self):
+    #     return f'Node: {self.name}'
 
 
 class RecoveryMethodsList(models.Model):
@@ -253,8 +253,8 @@ class RecoveryMethodsList(models.Model):
     name = models.TextField(null=False, blank=False, verbose_name=_('Recovery method name'))
     description = models.TextField(null=False, blank=False, verbose_name=_('Recovery method description'))
 
-    def __str__(self):
-        return f'Recovery method: {self.name}'
+    # def __str__(self):
+    #     return f'Recovery method: {self.name}'
 
 
 # class MetaModel(models.Model, User):
